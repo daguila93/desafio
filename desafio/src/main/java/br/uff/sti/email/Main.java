@@ -1,9 +1,9 @@
 package br.uff.sti.email;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -16,9 +16,8 @@ import org.apache.commons.csv.CSVRecord;
  * @author edil
  */
 public class Main {
-    
-//Constantes
 
+//Constantes
     private static final String[] HEADER = {"nome", "matricula", "telefone", "email", "uffmail", "status"};
     private static final String DOMAIN_EMAIL = "@id.uff.br";
 
@@ -52,39 +51,45 @@ public class Main {
 //Pedindo a matrícula do Aluno
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite sua matrícula: ");
-        long matricula = sc.nextLong();
-        Aluno aluno = map.get(matricula);
 
-//Testes Condicionais da Matrícula para a criação de UFFmail se necessário.
-        if (aluno == null) {
-            System.out.println("Digite uma matrícula válida!");
-        } else {
-            if ("Ativo".equalsIgnoreCase(aluno.getStatus()) && aluno.getUffMail().isEmpty()) {
-                System.out.println(aluno.getNome().split(" ")[0] + ", por favor escolha uma das opções abaixo para o seu UFFMail. ");
+        //Teste de tipo da matrícula
+        try {
+            long matricula = sc.nextLong();
+            Aluno aluno = map.get(matricula);
 
-                Map<Integer, String> mapa = criarMapaDeEmail(aluno.getNome());
-
-                for (Map.Entry entry : mapa.entrySet()) {
-                    System.out.println(entry.getKey() + " - " + entry.getValue());
-                }
-                String emailEscolhido = mapa.get(sc.nextInt());
-                if (emailEscolhido != null) {
-                    System.out.println("A criação de seu e-mail (" + emailEscolhido + ") será feita nos próximos minutos.\n"
-                            + "Um SMS foi enviado para " + aluno.getTelefone() + " com a sua senha de acesso. ");
-                } else {
-                    System.out.println("Digite uma opção válida.");
-                }
-
+            //Testes Condicionais da Matrícula para a criação de UFFmail se necessário.
+            if (aluno == null) {
+                System.out.println("Digite uma matrícula válida!");
             } else {
-                if ("Ativo".equalsIgnoreCase(aluno.getStatus()) && !aluno.getUffMail().equalsIgnoreCase(null)) {
-                    System.out.println("UFFMAIL já cadastrado: " + aluno.getUffMail());
+                if ("Ativo".equalsIgnoreCase(aluno.getStatus()) && aluno.getUffMail().isEmpty()) {
+                    System.out.println(aluno.getNome().split(" ")[0] + ", por favor escolha uma das opções abaixo para o seu UFFMail. ");
 
+                    Map<Integer, String> mapa = criarMapaDeEmail(aluno.getNome());
+
+                    for (Map.Entry entry : mapa.entrySet()) {
+                        System.out.println(entry.getKey() + " - " + entry.getValue());
+                    }
+                    String emailEscolhido = mapa.get(sc.nextInt());
+                    if (emailEscolhido != null) {
+                        System.out.println("A criação de seu e-mail (" + emailEscolhido + ") será feita nos próximos minutos.\n"
+                                + "Um SMS foi enviado para " + aluno.getTelefone() + " com a sua senha de acesso. ");
+                    } else {
+                        System.out.println("Digite uma opção válida.");
+                    }
+
+                } else {
+                    if ("Ativo".equalsIgnoreCase(aluno.getStatus()) && !aluno.getUffMail().equalsIgnoreCase(null)) {
+                        System.out.println("UFFMAIL já cadastrado: " + aluno.getUffMail());
+
+                    }
+                }
+                if ("Inativo".equalsIgnoreCase(aluno.getStatus())) {
+                    System.out.println("E-mail inativo, entre em contato com o STI");
                 }
             }
-            if ("Inativo".equalsIgnoreCase(aluno.getStatus())) {
-                System.out.println("E-mail inativo, entre em contato com o STI");
-            }
 
+        } catch (InputMismatchException e) {
+            System.out.println("Digite uma matrícula válida.");
         }
 
     }
