@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uff.sti.email;
+package br.uff.sti.email.modelo;
 
 /**
  *
@@ -64,6 +64,14 @@ public class Aluno {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public Boolean isAtivo(){
+        return "Ativo".equalsIgnoreCase(this.getStatus());
+    }
+    
+    public Boolean hasUffmail(){
+        return !this.getUffMail().isEmpty();
     }
 
     @Override
