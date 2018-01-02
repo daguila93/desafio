@@ -42,7 +42,7 @@ public final class CSVService {
             LOGGER.error("Erro ao carregar o arquivo.", ioex);
         }
     }
-    
+
     protected CSVService inicializarLeitorArquivo() throws FileNotFoundException{
         this.leitorArquivo = new FileReader(nomeDoArquivo);
         return this;
@@ -61,6 +61,11 @@ public final class CSVService {
         return this.registros;
     }
 
+    /**
+     * Retorna os registros dos alunos que estão no csv.
+     * @return
+     * @throws IOException 
+     */
     public List<CSVRecord> getRegistros() throws IOException {
         return this.registros != null
                 ? this.registros
