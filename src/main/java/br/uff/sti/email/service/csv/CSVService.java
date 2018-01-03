@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author edil
  */
-public final class CSVService {
+public class CSVService {
     private final Logger LOGGER = LoggerFactory.getLogger(CSVService.class);
     
     public static final String[] HEADER = {
@@ -41,14 +41,14 @@ public final class CSVService {
         } catch (IOException ioex) {
             LOGGER.error("Erro ao carregar o arquivo.", ioex);
         }
-    }
+    }   
 
-    protected CSVService inicializarLeitorArquivo() throws FileNotFoundException{
+    private CSVService inicializarLeitorArquivo() throws FileNotFoundException{
         this.leitorArquivo = new FileReader(nomeDoArquivo);
         return this;
     }
     
-    protected CSVService carregarArquivo() throws IOException{
+    private CSVService carregarArquivo() throws IOException{
        this.parserArquivo = CSVFormat.EXCEL
                                 .withFirstRecordAsHeader()
                                 .withHeader(HEADER)

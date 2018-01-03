@@ -28,10 +28,14 @@ public class AlunoService {
     CSVService CSVService;
 
     public AlunoService() {
-        map = new HashMap<>();
-        CSVService = new CSVService();
-        inicializarMapAlunos();
+        this(new CSVService());        
     }
+
+    public AlunoService(CSVService CSVService) {
+        this.CSVService = CSVService;
+        map = new HashMap<>();        
+        inicializarMapAlunos();
+    }   
     
     private void inicializarMapAlunos(){
         try {
@@ -53,11 +57,8 @@ public class AlunoService {
     public Optional<Aluno> getAluno(Long matricula) {
         return Optional.ofNullable(map.get(matricula));
     }
-    
-    
-    
-    
 
-        
-    
+    public Map<Long, Aluno> getMap() {
+        return map;
+    }
 }
