@@ -21,24 +21,29 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.BDDMockito.given;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import org.slf4j.Logger;
 
 /**
  *
  * @author edil
  */
-public class AlunoServiceTest {
-
+public class AlunoServiceTest{
+    
     private AlunoService alunoService;
     private CSVService arquivoService;
+    private Logger logger;
 
     public AlunoServiceTest() {
     }
 
     @Before
-    public void setUp() throws IOException {        
+    public void setUp() throws IOException {
+        logger = Mockito.mock(Logger.class);
         arquivoService = Mockito.mock(CSVService.class);
         given(this.arquivoService.getRegistros()).willReturn(getFakeRecords());
-        alunoService = new AlunoService(arquivoService); 
+        alunoService = spy(new AlunoService(arquivoService));
     }
 
     @After
@@ -55,7 +60,7 @@ public class AlunoServiceTest {
     }
 
     @Test
-    public void testInicializarMapAlunosComSucesso() {        
+    public void testInicializarMapAlunosComSucesso() {
         Aluno aluno = alunoService.getMap().get(1180000001L);
         assertThat(aluno.getMatricula(), is(equalTo(1180000001L)));
         assertThat(aluno.getNome(), is(equalTo("Edil D'Aguila Rocha")));
@@ -68,7 +73,15 @@ public class AlunoServiceTest {
 
     @Test
     public void testGetAluno() throws IOException {
+        Aluno aluno = new Aluno();
+        aluno.getNome();
+        aluno.getEmail();
+    }
 
+    public void testCatch() throws Exception {
+        given(AlunoService.getLOGGER()).willReturn(logger);
+        alunoService = spy(new AlunoService(arquivoService));
+        Mockito.verify(logger, times(1));
     }
 
 }

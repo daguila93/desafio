@@ -5,86 +5,65 @@
  */
 package br.uff.sti.email.modelo;
 
+import br.uff.sti.email.service.csv.CSVService;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 import org.junit.After;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author edil
  */
 public class AlunoTest {
-    
-    public AlunoTest() {
-    }
-    
+
+    private Aluno aluno;
+ 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
+        CSVRecord record = getFakeRecords().get(0);
+        aluno = new Aluno();
+        aluno.setNome(record.get("nome"));
+        aluno.setMatricula(Long.valueOf(record.get("matricula")));
+        aluno.setTelefone(record.get("telefone"));
+        aluno.setEmail(record.get("email"));
+        aluno.setUffMail(record.get("uffmail"));
+        aluno.setStatus(record.get("status"));
     }
-    
+
     @After
     public void tearDown() {
+        aluno = null;
     }
 
-    @Test
-    public void testGetNome() {
-    }
-
-    @Test
-    public void testSetNome() {
-    }
-
-    @Test
-    public void testGetMatricula() {
-    }
-
-    @Test
-    public void testSetMatricula() {
-    }
-
-    @Test
-    public void testGetTelefone() {
-    }
-
-    @Test
-    public void testSetTelefone() {
-    }
-
-    @Test
-    public void testGetEmail() {
-    }
-
-    @Test
-    public void testSetEmail() {
-    }
-
-    @Test
-    public void testGetUffMail() {
-    }
-
-    @Test
-    public void testSetUffMail() {
-    }
-
-    @Test
-    public void testGetStatus() {
-    }
-
-    @Test
-    public void testSetStatus() {
+    private List<CSVRecord> getFakeRecords() throws FileNotFoundException, IOException {
+        return CSVFormat.EXCEL
+                .withFirstRecordAsHeader()
+                .withHeader(CSVService.HEADER)
+                .parse(new FileReader("./src/test/Test.csv"))
+                .getRecords();
     }
 
     @Test
     public void testIsAtivo() {
+        assertThat(aluno.isAtivo(), is(true));
     }
 
     @Test
     public void testHasUffmail() {
+        assertThat(aluno.getUffMail(), isEmptyOrNullString());
     }
 
     @Test
     public void testToString() {
     }
-    
+
 }

@@ -60,11 +60,11 @@ public class Main {
     public static void mostrarSugestoesDeEmail(Aluno aluno, Scanner sc) {
         LOGGER.info("{} por favor escolha uma das opções abaixo para o seu UFFMail.", aluno.getNome().split(" ")[0]);
         
-        Map<Integer, String> mapa = SugestaoEmailService.criarMapaDeEmail(aluno.getNome());
+        Map<Integer, String> mapa = new SugestaoEmailService().criarMapaDeEmail(aluno.getNome());
         
-        for (Map.Entry entry : mapa.entrySet()) {
+        mapa.entrySet().forEach((entry) -> {
             LOGGER.info(entry.getKey() + " - " + entry.getValue());//
-        }
+        });
         String emailEscolhido = mapa.get(sc.nextInt());
         if (emailEscolhido != null) {
             LOGGER.info("A criação de seu e-mail (" + emailEscolhido + ") será feita nos próximos minutos.\n"

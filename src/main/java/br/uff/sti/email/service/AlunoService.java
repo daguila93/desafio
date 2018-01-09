@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * @author edil
  */
 public class AlunoService {
-    private final Logger LOGGER = LoggerFactory.getLogger(AlunoService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlunoService.class);
     
     //Mapeando os objetos (ALUNO) com o HASHMAP
     Map<Long, Aluno> map;
@@ -61,4 +61,8 @@ public class AlunoService {
     public Map<Long, Aluno> getMap() {
         return map;
     }
+
+    public static Logger getLOGGER() {
+        return LOGGER;
+    }   
 }
