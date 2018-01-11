@@ -27,13 +27,18 @@ public class CSVService {
         "nome", "matricula", "telefone", "email", "uffmail", "status"
     };
     
-    private final String nomeDoArquivo = "./Arquivo.csv";
+    private String nomeDoArquivo;
 
     private Reader leitorArquivo;
     private CSVParser parserArquivo;
     private List<CSVRecord> registros;
 
     public CSVService() {
+        this("./Arquivo.csv");
+    }   
+    
+    public CSVService(String nomeDoArquivo) {
+        this.nomeDoArquivo = nomeDoArquivo;
         try{
             inicializarLeitorArquivo().carregarArquivo();                    
         }catch(FileNotFoundException fnfex){
@@ -41,7 +46,7 @@ public class CSVService {
         } catch (IOException ioex) {
             LOGGER.error("Erro ao carregar o arquivo.", ioex);
         }
-    }   
+    }
 
     private CSVService inicializarLeitorArquivo() throws FileNotFoundException{
         this.leitorArquivo = new FileReader(nomeDoArquivo);
@@ -70,5 +75,15 @@ public class CSVService {
         return this.registros != null
                 ? this.registros
                 : lerRegistros();
+    }  
+
+    public void setRegistros(List<CSVRecord> registros) {
+        this.registros = registros;
     }    
+
+    public String getNomeDoArquivo() {
+        return nomeDoArquivo;
+    }
+    
+    
 }

@@ -15,35 +15,44 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import org.hamcrest.Matchers;
 import org.junit.After;
+import org.junit.Assert;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Matchers.anyString;
+import org.mockito.Mock;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 
 /**
  *
  * @author edil
  */
-public class AlunoServiceTest{
+@RunWith(MockitoJUnitRunner.class)
+public class AlunoServiceTest {
     
-    private AlunoService alunoService;
+    @Mock
     private CSVService arquivoService;
+    
+    @Mock
     private Logger logger;
 
+    private AlunoService alunoService;
+    
     public AlunoServiceTest() {
     }
 
     @Before
     public void setUp() throws IOException {
-        logger = Mockito.mock(Logger.class);
-        arquivoService = Mockito.mock(CSVService.class);
         given(this.arquivoService.getRegistros()).willReturn(getFakeRecords());
-        alunoService = spy(new AlunoService(arquivoService));
+        alunoService = new AlunoService(arquivoService, logger);
     }
 
     @After
@@ -76,16 +85,36 @@ public class AlunoServiceTest{
         Aluno aluno = new Aluno();
         aluno.getNome();
         aluno.getEmail();
+        assert false;
     }
 
-    public void testCatch() throws Exception {
-        given(AlunoService.getLOGGER()).willReturn(logger);
-        alunoService = spy(new AlunoService(arquivoService));
-        Mockito.verify(logger, times(1));
+    @Test
+    public void testCatchException() throws Exception {
+        given(arquivoService.getRegistros()).willThrow(new IOException());        
+        alunoService = new AlunoService(arquivoService, logger);
+        verify(alunoService.getLOGGER(), times(1)).error(anyString());
+    }
+
+    @Test
+    public void testReturnLogger() {
+        Logger log = alunoService.getLOGGER();        
+        assertThat(log.getName(), is(not("")));
+        assertThat(log.getName(), is("br.uff.sti.email.service.AlunoService"));
+    }
+
+    @Test
+    public void testConstrutorVazioExisteInstancia() {
+        AlunoService servico = new AlunoService();
+        assertThat(servico.getCSVService(), is(Matchers.notNullValue()));
     }
     
-    public void testReturnLogger(){
-        given(alunoService.getLOGGER()).willReturn(logger);
-    }            
-
+    @Test
+    public void testMatriculaNaoNula(){
+        assertThat(alunoService.getAluno(1180000001L).isPresent(), is(true)); 
+    }
+    
+    @Test
+    public void testMatriculaNula(){
+        assertThat(alunoService.getAluno(1L).isPresent(), is(false)); 
+    }   
 }
