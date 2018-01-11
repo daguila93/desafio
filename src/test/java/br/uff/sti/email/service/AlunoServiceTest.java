@@ -83,5 +83,9 @@ public class AlunoServiceTest{
         alunoService = spy(new AlunoService(arquivoService));
         Mockito.verify(logger, times(1));
     }
+    
+    public void testReturnLogger(){
+        given(alunoService.getLOGGER()).willReturn(logger);
+    }            
 
 }

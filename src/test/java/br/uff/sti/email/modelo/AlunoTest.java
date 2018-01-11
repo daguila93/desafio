@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -59,11 +59,19 @@ public class AlunoTest {
 
     @Test
     public void testHasUffmail() {
-        assertThat(aluno.getUffMail(), isEmptyOrNullString());
+        assertThat(aluno.hasUffmail(), is(false));
     }
 
     @Test
     public void testToString() {
+        assertThat(aluno.toString(), containsString("nome=Edil D'Aguila Rocha"));
+        assertThat(aluno.toString(), containsString("matricula=1180000001"));
+        assertThat(aluno.toString(), containsString("telefone=99999-9999"));
+        assertThat(aluno.toString(), containsString("uffMail="));
+        assertThat(aluno.toString(), containsString("email=email@gmail.com"));
+        assertThat(aluno.toString(), containsString("status=Ativo"));
     }
 
+          
+    
 }

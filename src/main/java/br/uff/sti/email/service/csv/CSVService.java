@@ -56,7 +56,7 @@ public class CSVService {
        return this;
     }
     
-    private List<CSVRecord> lerRegistros() throws IOException{
+    protected List<CSVRecord> lerRegistros() throws IOException{
         this.registros = parserArquivo.getRecords();
         return this.registros;
     }

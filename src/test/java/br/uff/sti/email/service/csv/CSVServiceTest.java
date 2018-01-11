@@ -5,6 +5,8 @@
  */
 package br.uff.sti.email.service.csv;
 
+import java.util.List;
+import org.apache.commons.csv.CSVRecord;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,10 +36,15 @@ public class CSVServiceTest {
     }
 
     @Test
-    public void testGetRegistros() throws Exception {
+    public void testLerRegistros() throws Exception {
+       
+       cSVService.lerRegistros();
+       cSVService.getRegistros();
         
-        
-        
+    }
+
+    private void assertThat(List<CSVRecord> lerRegistros) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
