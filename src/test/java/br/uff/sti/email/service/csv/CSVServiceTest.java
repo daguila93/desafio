@@ -35,6 +35,8 @@ import org.slf4j.Logger;
 public class CSVServiceTest {
   
     private CSVService service;
+
+    private CSVService servico;
         
     @Mock
     private Logger log;
@@ -74,8 +76,8 @@ public class CSVServiceTest {
     
     @Test
     public void testCatchFileNotFound() throws Exception{ 
-        given(service.getNomeDoArquivo()).willThrow(FileNotFoundException.class);
-        cSVservice = new CSVService("./src/test/Test.csv", log);
+        given(service.getNomeDoArquivo()).willThrow( new FileNotFoundException());
+        servico = new CSVService("./src/test/Test.csv", log);
         verify(service.getLOGGER(), times(1)).error(anyString());
                 
     }
