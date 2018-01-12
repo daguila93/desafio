@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * @author edil
  */
 public class AlunoService {
-    private Logger LOGGER = LoggerFactory.getLogger(AlunoService.class);
+    private Logger LOGGER;
     
     //Mapeando os objetos (ALUNO) com o HASHMAP
     Map<Long, Aluno> map;
@@ -32,12 +32,12 @@ public class AlunoService {
     }
 
     public AlunoService(CSVService CSVService) {
-        this(CSVService, null);
+        this(CSVService, LoggerFactory.getLogger(AlunoService.class));
     } 
     
     public AlunoService(CSVService CSVService, Logger logger) {
         this.CSVService = CSVService;
-        overrideLogger(logger);
+        this.LOGGER = logger;
         map = new HashMap<>();        
         inicializarMapAlunos();
     }
@@ -69,13 +69,12 @@ public class AlunoService {
 
     public Logger getLOGGER() {
         return LOGGER;
-    } 
-    
-    private void overrideLogger(Logger logger){
-        if(logger != null){
-            this.LOGGER = logger;
-        }
     }
+
+    public void setLOGGER(Logger LOGGER) {
+        this.LOGGER = LOGGER;
+    }    
+
 
     public CSVService getCSVService() {
         return CSVService;

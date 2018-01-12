@@ -18,7 +18,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import org.hamcrest.Matchers;
 import org.junit.After;
-import org.junit.Assert;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +29,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -46,9 +46,6 @@ public class AlunoServiceTest {
 
     private AlunoService alunoService;
     
-    public AlunoServiceTest() {
-    }
-
     @Before
     public void setUp() throws IOException {
         given(this.arquivoService.getRegistros()).willReturn(getFakeRecords());
@@ -57,6 +54,7 @@ public class AlunoServiceTest {
 
     @After
     public void tearDown() {
+        alunoService = null;
         arquivoService = null;
     }
 
@@ -81,14 +79,6 @@ public class AlunoServiceTest {
     }
 
     @Test
-    public void testGetAluno() throws IOException {
-        Aluno aluno = new Aluno();
-        aluno.getNome();
-        aluno.getEmail();
-        assert false;
-    }
-
-    @Test
     public void testCatchException() throws Exception {
         given(arquivoService.getRegistros()).willThrow(new IOException());        
         alunoService = new AlunoService(arquivoService, logger);
@@ -97,6 +87,7 @@ public class AlunoServiceTest {
 
     @Test
     public void testReturnLogger() {
+        alunoService.setLOGGER(LoggerFactory.getLogger(AlunoService.class));
         Logger log = alunoService.getLOGGER();        
         assertThat(log.getName(), is(not("")));
         assertThat(log.getName(), is("br.uff.sti.email.service.AlunoService"));
