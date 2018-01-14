@@ -19,24 +19,22 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
-import org.mockito.Matchers;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import org.mockito.runners.MockitoJUnit44Runner;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 
 /**
  *
  * @author edil
  */
-@RunWith(MockitoJUnit44Runner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class CSVServiceTest {
   
     private CSVService service;
-
-    private CSVService servico;
         
     @Mock
     private Logger log;
@@ -75,11 +73,10 @@ public class CSVServiceTest {
     }
     
     @Test
-    public void testCatchFileNotFound() throws Exception{ 
-        given(service.getNomeDoArquivo()).willThrow( new FileNotFoundException());
-        servico = new CSVService("./src/test/Test.csv", log);
-        verify(service.getLOGGER(), times(1)).error(anyString());
-                
+    public void testCatchFileNotFound() throws Exception {
+        CSVService mock = Mockito.mock(CSVService.class);
+        given(mock.inicializarLeitorArquivo()).willThrow(new FileNotFoundException());
+        
     }
     
     @Test

@@ -21,12 +21,13 @@ import org.slf4j.LoggerFactory;
  * @author edil
  */
 public class CSVService {
-    private final Logger LOGGER;
-    
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSVService.class);
+
     public static final String[] HEADER = {
         "nome", "matricula", "telefone", "email", "uffmail", "status"
     };
-    
+
     private String nomeDoArquivo;
 
     private Reader leitorArquivo;
@@ -35,67 +36,62 @@ public class CSVService {
 
     public CSVService() {
         this("./Arquivo.csv");
-    }   
-    
-    public CSVService(String nomeDoArquivo) {
-        this(nomeDoArquivo, LoggerFactory.getLogger(CSVService.class));
     }
-    
-    public CSVService(String nomeDoArquivo, Logger logger){
+
+    public CSVService(String nomeDoArquivo) {
         this.nomeDoArquivo = nomeDoArquivo;
-        this.LOGGER = logger;
-        try{
-            inicializarLeitorArquivo().carregarArquivo();                    
-        }catch(FileNotFoundException fnfex){
+        try {
+            inicializarLeitorArquivo().carregarArquivo();
+        } catch (FileNotFoundException fnfex) {
             LOGGER.error("Erro ao encontrar o arquivo. Não encontrado.", fnfex);
         } catch (IOException ioex) {
             LOGGER.error("Erro ao carregar o arquivo.", ioex);
         }
     }
+//
+//    CSVService(Logger log) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
-    CSVService(Logger log) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-
-    private CSVService inicializarLeitorArquivo() throws FileNotFoundException{
+    public CSVService inicializarLeitorArquivo() throws FileNotFoundException {
         this.leitorArquivo = new FileReader(nomeDoArquivo);
         return this;
     }
-    
-    private CSVService carregarArquivo() throws IOException{
-       this.parserArquivo = CSVFormat.EXCEL
-                                .withFirstRecordAsHeader()
-                                .withHeader(HEADER)
-                                .parse(leitorArquivo);
-       return this;
+
+    private CSVService carregarArquivo() throws IOException {
+        this.parserArquivo = CSVFormat.EXCEL
+                .withFirstRecordAsHeader()
+                .withHeader(HEADER)
+                .parse(leitorArquivo);
+        return this;
     }
-    
-    protected List<CSVRecord> lerRegistros() throws IOException{
+
+    protected List<CSVRecord> lerRegistros() throws IOException {
         this.registros = parserArquivo.getRecords();
         return this.registros;
     }
 
     /**
      * Retorna os registros dos alunos que estão no csv.
+     *
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     public List<CSVRecord> getRegistros() throws IOException {
         return this.registros != null
                 ? this.registros
                 : lerRegistros();
-    }  
+    }
 
     public void setRegistros(List<CSVRecord> registros) {
         this.registros = registros;
-    }    
+    }
 
     public String getNomeDoArquivo() {
         return nomeDoArquivo;
     }
-    
-     public Logger getLOGGER() {
+
+    public Logger getLOGGER() {
         return LOGGER;
     }
 }
