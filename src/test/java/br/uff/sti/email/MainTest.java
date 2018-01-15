@@ -7,19 +7,22 @@ package br.uff.sti.email;
 
 import br.uff.sti.email.modelo.Aluno;
 import br.uff.sti.email.service.AlunoService;
-import br.uff.sti.email.service.csv.CSVService;
 import java.util.Optional;
-import java.util.OptionalLong;
+import org.hamcrest.CoreMatchers;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import org.junit.After;
+import org.junit.Assert;
+import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import static org.mockito.BDDMockito.given;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -54,23 +57,39 @@ public class MainTest {
     }
 
     @Test
-    public void testIsAlunoValidoParaSugestaoEmail() {
-        alunoService.getAluno(Long.MAX_VALUE);
+    public void quandoAlunoAtivoESemUffMailEntaoAlunoValidoParaSugestao() {
+        Aluno alunoAtivo = new Aluno();
+        alunoAtivo.setStatus("Ativo");
+        alunoAtivo.setUffMail("");
+        Boolean resultado = Main.isAlunoValidoParaSugestaoEmail(alunoAtivo);
+        assertThat(resultado, is(true));
     }
     
     @Test
-    public void testIsAlunoAtivo(){
-       
+    public void quandoAlunoInativoEntaoNaoValidoParaSugestao() {
+        Aluno alunoInativo = new Aluno();
+        alunoInativo.setStatus("Inativo");
+        Boolean resultado = Main.isAlunoValidoParaSugestaoEmail(alunoInativo);
+        assertThat(resultado, is(false));
     }
     
     @Test
-    public void testAlunoAtivoEComUffMail(){
+    public void quandoAlunoAtivoComUffMailEntaoNaoValidoParaSugestao() {
+        Aluno alunoAtivo = new Aluno();
+        alunoAtivo.setStatus("Ativo");
+        alunoAtivo.setUffMail("edil.rocha@id.uff.br");
+        Boolean resultado = Main.isAlunoValidoParaSugestaoEmail(alunoAtivo);
+        assertThat(resultado, is(false));
+    }
+    
+    //Testar se o Logger foi chamado 7 vezes.
+    @Test
+    public void testReturnLogger(){
+    alunoService.setLOGGER(LoggerFactory.getLogger(AlunoService.class));
+        Logger log = alunoService.getLOGGER();        
+        assertThat(log.getName(), is(not("")));
+        assertThat(log.getName(), is("br.uff.sti.email.service.AlunoService"));
         
-    }
-    @Test
-
-    @Test
-    public void testMostrarSugestoesDeEmail() {
-    }
+    }    
     
 }
