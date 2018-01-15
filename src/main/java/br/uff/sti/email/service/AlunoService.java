@@ -7,6 +7,7 @@ package br.uff.sti.email.service;
 
 import br.uff.sti.email.modelo.Aluno;
 import br.uff.sti.email.service.csv.CSVService;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class AlunoService {
     CSVService CSVService;
 
     public AlunoService() {
-        this(new CSVService());        
+        this(new CSVService());
     }
 
     public AlunoService(CSVService CSVService) {
@@ -44,6 +45,7 @@ public class AlunoService {
     
     private void inicializarMapAlunos(){
         try {
+            CSVService.inicializarServico();
             for (CSVRecord record : CSVService.getRegistros()) {
                 Aluno aluno = new Aluno();
                 aluno.setNome(record.get("nome"));
@@ -54,6 +56,8 @@ public class AlunoService {
                 aluno.setStatus(record.get("status"));
                 map.put(aluno.getMatricula(), aluno);       
             }
+        }catch (FileNotFoundException fnfex) {
+            LOGGER.error("Erro ao encontrar o arquivo de alunos.");
         } catch (IOException ex) {
             LOGGER.error("Erro ao inicializar mapa de alunos.");
         }

@@ -5,20 +5,33 @@
  */
 package br.uff.sti.email;
 
-import static org.hamcrest.CoreMatchers.is;
+import br.uff.sti.email.service.AlunoService;
+import br.uff.sti.email.service.csv.CSVService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.slf4j.Logger;
 
 /**
  *
  * @author edil
  */
+@RunWith(MockitoJUnitRunner.class)
 public class MainTest {
     
     public MainTest() {
     }
+    
+    @Mock
+    private CSVService arquivoService;
+    
+    @Mock
+    private Logger logger;
+
+    private AlunoService alunoService;
     
     @Before
     public void setUp() {

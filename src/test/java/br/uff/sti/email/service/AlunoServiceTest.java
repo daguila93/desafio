@@ -79,8 +79,15 @@ public class AlunoServiceTest {
     }
 
     @Test
-    public void testCatchException() throws Exception {
+    public void testCatchIOException() throws Exception {
         given(arquivoService.getRegistros()).willThrow(new IOException());        
+        alunoService = new AlunoService(arquivoService, logger);
+        verify(alunoService.getLOGGER(), times(1)).error(anyString());
+    }
+    
+    @Test
+    public void testCatchFileNotFoundException() throws Exception {
+        given(arquivoService.inicializarServico()).willThrow(FileNotFoundException.class);       
         alunoService = new AlunoService(arquivoService, logger);
         verify(alunoService.getLOGGER(), times(1)).error(anyString());
     }

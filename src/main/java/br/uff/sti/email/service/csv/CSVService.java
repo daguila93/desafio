@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CSVService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CSVService.class);
+    private Logger LOGGER;
 
     public static final String[] HEADER = {
         "nome", "matricula", "telefone", "email", "uffmail", "status"
@@ -39,21 +39,20 @@ public class CSVService {
     }
 
     public CSVService(String nomeDoArquivo) {
-        this.nomeDoArquivo = nomeDoArquivo;
-        try {
-            inicializarLeitorArquivo().carregarArquivo();
-        } catch (FileNotFoundException fnfex) {
-            LOGGER.error("Erro ao encontrar o arquivo. Não encontrado.", fnfex);
-        } catch (IOException ioex) {
-            LOGGER.error("Erro ao carregar o arquivo.", ioex);
-        }
+        this(nomeDoArquivo, LoggerFactory.getLogger(CSVService.class));
     }
-//
-//    CSVService(Logger log) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
 
-    public CSVService inicializarLeitorArquivo() throws FileNotFoundException {
+    public CSVService(String nomeDoArquivo, Logger log) {
+        this.nomeDoArquivo = nomeDoArquivo;
+        this.LOGGER = log;
+    }
+    
+    public CSVService inicializarServico() throws FileNotFoundException, IOException{
+        inicializarLeitorArquivo().carregarArquivo();
+        return this;
+    }
+
+    private CSVService inicializarLeitorArquivo() throws FileNotFoundException {
         this.leitorArquivo = new FileReader(nomeDoArquivo);
         return this;
     }

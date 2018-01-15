@@ -5,7 +5,6 @@
  */
 package br.uff.sti.email.service.csv;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import org.apache.commons.csv.CSVRecord;
@@ -18,71 +17,46 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slf4j.Logger;
 
 /**
  *
  * @author edil
  */
-@RunWith(MockitoJUnitRunner.class)
 public class CSVServiceTest {
-  
+
     private CSVService service;
-        
-    @Mock
-    private Logger log;
 
     @Before
-    public void setUp() {
-        service = new CSVService("./src/test/Test.csv");
+    public void setUp() throws IOException {
+        service = new CSVService("./src/test/Test.csv").inicializarServico();
     }
 
     @After
     public void tearDown() {
         service = null;
     }
-    
+
     @Test
     public void testLerRegistros() throws Exception {
         List<CSVRecord> registros = service.lerRegistros();
         assertThat(registros, is(notNullValue()));
-        assertThat(registros, hasSize(1));        
+        assertThat(registros, hasSize(1));
     }
-    
+
     @Test
-    public void testLerRegistroQuandoRegistrosSaoNulos() throws IOException{
+    public void testLerRegistroQuandoRegistrosSaoNulos() throws IOException {
         service.setRegistros(null);
         List<CSVRecord> registros = service.getRegistros();
         assertThat(registros, is(notNullValue()));
         assertThat(registros, hasSize(1));
     }
-    
+
     @Test
-    public void testConstrutorVazioValorDefault(){
-        CSVService servico = new CSVService();
+    public void testConstrutorVazioValorDefault() throws IOException {
+        CSVService servico = new CSVService().inicializarServico();
         assertThat(servico.getNomeDoArquivo(), is(not("")));
         assertThat(servico.getNomeDoArquivo(), is("./Arquivo.csv"));
-
+        assertThat(servico.getLOGGER().getName(), is("br.uff.sti.email.service.csv.CSVService"));
     }
-    
-    @Test
-    public void testCatchFileNotFound() throws Exception {
-        CSVService mock = Mockito.mock(CSVService.class);
-        given(mock.inicializarLeitorArquivo()).willThrow(new FileNotFoundException());
-        
-    }
-    
-    @Test
-    public void testREturnLogger(){
-        
-        Logger log = service.getLOGGER();
-    }
-
 }
