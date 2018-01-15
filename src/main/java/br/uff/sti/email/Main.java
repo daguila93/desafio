@@ -16,11 +16,16 @@ import org.slf4j.LoggerFactory;
  */
 public class Main {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    
+    private static AlunoService alunoService;
+    
+    public Main(AlunoService alunoServiceParam, Logger log){
+        Main.LOGGER = log;
+        Main.alunoService = alunoServiceParam;        
+    }
 
-    public static void main(String[] args) {
-        AlunoService alunoService = new AlunoService();
-
+    public static void main(String[] args) {       
         Scanner sc = new Scanner(System.in);
         LOGGER.info("Digite sua matrícula: ");
 
@@ -37,7 +42,7 @@ public class Main {
                     mostrarSugestoesDeEmail(aluno, sc);
                 }
             }
-        } catch (InputMismatchException e) {
+        }   catch (InputMismatchException e) {
             LOGGER.info("Digite uma matrícula válida.");
         }
 
