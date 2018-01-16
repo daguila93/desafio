@@ -34,7 +34,7 @@ public class SugestaoEmailServiceTest{
     @Test
     public void testCriarMapaDeEmail() {
         Map<Integer, String> sugestoes = 
-                service.criarMapaDeEmail("Edil D'Aguila Rocha");
+        service.criarMapaDeEmail("Edil D'Aguila Rocha");
         assertThat(sugestoes.get(1), is(equalTo("edil_daguila@id.uff.br")));
         assertThat(sugestoes.get(2), is(equalTo("edildr@id.uff.br")));
         assertThat(sugestoes.get(3), is(equalTo("edildaguila@id.uff.br")));

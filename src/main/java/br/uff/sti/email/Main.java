@@ -17,15 +17,16 @@ import org.slf4j.LoggerFactory;
 public class Main {
 
     private static Logger LOGGER = LoggerFactory.getLogger(Main.class);
-    
+
     private static AlunoService alunoService;
-    
-    public Main(AlunoService alunoServiceParam, Logger log){
+
+    public Main(AlunoService alunoServiceParam, Logger log) {
         Main.LOGGER = log;
-        Main.alunoService = alunoServiceParam;        
+        Main.alunoService = alunoServiceParam;
     }
 
-    public static void main(String[] args) {       
+    public static void main(String[] args) {
+        alunoService = new AlunoService();
         Scanner sc = new Scanner(System.in);
         LOGGER.info("Digite sua matrícula: ");
 
@@ -38,14 +39,13 @@ public class Main {
             } else {
                 Aluno aluno = optAluno.get();
 
-                if(isAlunoValidoParaSugestaoEmail(aluno)){
+                if (isAlunoValidoParaSugestaoEmail(aluno)) {
                     mostrarSugestoesDeEmail(aluno, sc);
                 }
             }
-        }   catch (InputMismatchException e) {
+        } catch (InputMismatchException e) {
             LOGGER.info("Digite uma matrícula válida.");
         }
-
     }
 
     public static boolean isAlunoValidoParaSugestaoEmail(Aluno aluno) {
@@ -53,20 +53,20 @@ public class Main {
             LOGGER.info("Aluno Inativo, entre em contato com o STI");
             return false;
         }
-        
+
         if (aluno.isAtivo() && aluno.hasUffmail()) {
             LOGGER.info("UFFMAIL já cadastrado: " + aluno.getUffMail());
             return false;
         }
-        
+
         return true;
     }
 
     public static void mostrarSugestoesDeEmail(Aluno aluno, Scanner sc) {
         LOGGER.info("{} por favor escolha uma das opções abaixo para o seu UFFMail.", aluno.getNome().split(" ")[0]);
-        
+
         Map<Integer, String> mapa = new SugestaoEmailService().criarMapaDeEmail(aluno.getNome());
-        
+
         mapa.entrySet().forEach((entry) -> {
             LOGGER.info(entry.getKey() + " - " + entry.getValue());//
         });
@@ -81,6 +81,5 @@ public class Main {
 
     Logger getLOGGER() {
         return LOGGER;
-        
     }
 }
