@@ -78,4 +78,9 @@ public class Main {
             LOGGER.info("Digite uma opção válida.");
         }
     }
+
+    Logger getLOGGER() {
+        return LOGGER;
+        
+    }
 }

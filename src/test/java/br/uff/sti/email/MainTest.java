@@ -7,19 +7,21 @@ package br.uff.sti.email;
 
 import br.uff.sti.email.modelo.Aluno;
 import br.uff.sti.email.service.AlunoService;
+import java.io.FileNotFoundException;
 import java.util.Optional;
-import org.hamcrest.CoreMatchers;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import org.junit.After;
-import org.junit.Assert;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
 import org.mockito.Matchers;
+import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,11 +87,8 @@ public class MainTest {
     //Testar se o Logger foi chamado 7 vezes.
     @Test
     public void testReturnLogger(){
-    alunoService.setLOGGER(LoggerFactory.getLogger(AlunoService.class));
-        Logger log = alunoService.getLOGGER();        
+        Logger log = principal.getLOGGER();        
         assertThat(log.getName(), is(not("")));
-        assertThat(log.getName(), is("br.uff.sti.email.service.AlunoService"));
-        
+        verify(principal.getLOGGER(), times(7)).info(anyString());        
     }    
-    
 }
