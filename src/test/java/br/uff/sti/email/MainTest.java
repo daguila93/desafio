@@ -7,8 +7,6 @@ package br.uff.sti.email;
 
 import br.uff.sti.email.modelo.Aluno;
 import br.uff.sti.email.service.AlunoService;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.Optional;
 import java.util.Scanner;
 import static org.hamcrest.CoreMatchers.is;
@@ -20,13 +18,11 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
 import org.mockito.Matchers;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -45,16 +41,12 @@ public class MainTest {
     @Mock
     private AlunoService alunoService;
     
-    @Rule
-    public TextFromStandardInputStream systemMock;
-    
     private Main principal;
     
     @Before
     public void setUp() {
         given(this.alunoService.getAluno(Matchers.anyLong()))
-            .willReturn(Optional.ofNullable(new Aluno()));
-        systemMock = TextFromStandardInputStream.emptyStandardInputStream();
+            .willReturn(Optional.ofNullable(new Aluno()));        
         principal = new Main(alunoService, logger);
     }
     
@@ -108,7 +100,6 @@ public class MainTest {
         aluno.setNome("Guilherme Alves Gonçalves");
         aluno.setStatus("Ativo");
         aluno.setUffMail("");
-        systemMock.provideLines("1");
         Main.mostrarSugestoesDeEmail(aluno, new Scanner(System.in));       
         verify(principal.getLOGGER(), times(7)).info(anyString());        
     }

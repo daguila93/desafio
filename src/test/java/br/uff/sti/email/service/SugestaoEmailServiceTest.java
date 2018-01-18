@@ -17,10 +17,10 @@ import org.junit.Test;
  *
  * @author edil
  */
-public class SugestaoEmailServiceTest{
+public class SugestaoEmailServiceTest {
     
     private SugestaoEmailService service;
-            
+    
     @Before
     public void setUp() {
         service = new SugestaoEmailService();
@@ -30,16 +30,18 @@ public class SugestaoEmailServiceTest{
     public void tearDown() {
         service = null;
     }
-
+    
     @Test
     public void testCriarMapaDeEmail() {
-        Map<Integer, String> sugestoes = 
-        service.criarMapaDeEmail("Edil D'Aguila Rocha");
-        assertThat(sugestoes.get(1), is(equalTo("edil_daguila@id.uff.br")));
-        assertThat(sugestoes.get(2), is(equalTo("edildr@id.uff.br")));
-        assertThat(sugestoes.get(3), is(equalTo("edildaguila@id.uff.br")));
-        assertThat(sugestoes.get(4), is(equalTo("edaguila@id.uff.br")));
-        assertThat(sugestoes.get(5), is(equalTo("edaguilarocha@id.uff.br")));
+        Map<Integer, String> sugestoes
+                = service.criarMapaDeEmail("Edil D'Aguila Rocha");
+        assertThat(sugestoes.get(1), is(equalTo("edildr@id.uff.br")));
+        assertThat(sugestoes.get(2), is(equalTo("edaguilarocha@id.uff.br")));
+        assertThat(sugestoes.get(3), is(equalTo("edd@id.uff.br")));
+        assertThat(sugestoes.get(4), is(equalTo("edil_daguila@id.uff.br")));
+        assertThat(sugestoes.get(5), is(equalTo("edildaguila@id.uff.br")));
+        assertThat(sugestoes.get(6), is(equalTo("edaguila@id.uff.br")));
+        assertThat(sugestoes.get(7), is(equalTo("edil@id.uff.br")));
     }
     
 }
