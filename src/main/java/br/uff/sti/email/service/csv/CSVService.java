@@ -5,8 +5,10 @@
  */
 package br.uff.sti.email.service.csv;
 
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
@@ -46,8 +48,8 @@ public class CSVService {
         this.nomeDoArquivo = nomeDoArquivo;
         this.LOGGER = log;
     }
-    
-    public CSVService inicializarServico() throws FileNotFoundException, IOException{
+
+    public CSVService inicializarServico() throws FileNotFoundException, IOException {
         inicializarLeitorArquivo().carregarArquivo();
         return this;
     }
@@ -68,6 +70,11 @@ public class CSVService {
     protected List<CSVRecord> lerRegistros() throws IOException {
         this.registros = parserArquivo.getRecords();
         return this.registros;
+    }
+
+    public CSVService gravarUffMailNoArquivoCSV() throws IOException{
+        
+        return this;
     }
 
     /**

@@ -3,6 +3,8 @@ package br.uff.sti.email;
 import br.uff.sti.email.modelo.Aluno;
 import br.uff.sti.email.service.AlunoService;
 import br.uff.sti.email.service.SugestaoEmailService;
+import br.uff.sti.email.service.csv.CSVService;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Optional;
@@ -19,6 +21,7 @@ public class Main {
     private static Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     private static AlunoService alunoService;
+    private static CSVService cSVService;
 
     public Main(AlunoService alunoServiceParam, Logger log) {
         Main.LOGGER = log;
@@ -58,11 +61,10 @@ public class Main {
             LOGGER.info("UFFMAIL já cadastrado: " + aluno.getUffMail());
             return false;
         }
-
         return true;
     }
 
-    public static void mostrarSugestoesDeEmail(Aluno aluno, Scanner sc) {
+    public static void mostrarSugestoesDeEmail(Aluno aluno, Scanner sc) throws IOException {
         LOGGER.info("{} por favor escolha uma das opções abaixo para o seu UFFMail.", aluno.getNome().split(" ")[0]);
 
         Map<Integer, String> mapa = new SugestaoEmailService().criarMapaDeEmail(aluno.getNome());
@@ -74,6 +76,7 @@ public class Main {
         if (emailEscolhido != null) {
             LOGGER.info("A criação de seu e-mail (" + emailEscolhido + ") será feita nos próximos minutos.\n"
                     + "Um SMS foi enviado para " + aluno.getTelefone() + " com a sua senha de acesso. ");
+            cSVService.gravarUffMailNoArquivoCSV();
         } else {
             LOGGER.info("Digite uma opção válida.");
         }
