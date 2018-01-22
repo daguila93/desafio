@@ -5,6 +5,7 @@
  */
 package br.uff.sti.email.service.csv;
 
+import br.uff.sti.email.modelo.Aluno;
 import java.io.IOException;
 import java.util.List;
 import org.apache.commons.csv.CSVRecord;
@@ -37,7 +38,7 @@ public class CSVServiceTest {
 
     @Test
     public void testLerRegistros() throws Exception {
-        List<CSVRecord> registros = service.lerRegistros();
+        List<Aluno> registros = service.lerRegistros();
         assertThat(registros, is(notNullValue()));
         assertThat(registros, hasSize(1));
     }
@@ -45,7 +46,7 @@ public class CSVServiceTest {
     @Test
     public void testLerRegistroQuandoRegistrosSaoNulos() throws IOException {
         service.setRegistros(null);
-        List<CSVRecord> registros = service.getRegistros();
+        List<Aluno> registros = service.getRegistros();
         assertThat(registros, is(notNullValue()));
         assertThat(registros, hasSize(1));
     }

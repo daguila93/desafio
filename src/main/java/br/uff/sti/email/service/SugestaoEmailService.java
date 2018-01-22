@@ -6,6 +6,9 @@
 package br.uff.sti.email.service;
 
 import static br.uff.sti.email.constantes.Constantes.DOMAIN_EMAIL;
+import br.uff.sti.email.modelo.Aluno;
+import br.uff.sti.email.service.csv.CSVService;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,8 +18,14 @@ import java.util.Map;
  */
 public class SugestaoEmailService {
 
+    private final CSVService arquivoService;
+
+    public SugestaoEmailService() {
+        arquivoService = new CSVService();
+    }    
+    
     //Mapeando a criação de E-mails e métodos de cada um dos possíveis e-mails.
-    public Map<Integer, String> criarMapaDeEmail(String nome) {
+    public Map<Integer, String> criarMapaDeEmail(String nome) throws IOException {
         String[] nomes = limparCaracteresEspeciaisEmNome(nome).split(" ");
         return mapearSugestoesDeEmail(nomes);
     }
@@ -25,7 +34,7 @@ public class SugestaoEmailService {
         return nome.replaceAll("[^a-zA-Z_ ]", "");
     }
 
-    private Map<Integer, String> mapearSugestoesDeEmail(String[] nomes) {
+    private Map<Integer, String> mapearSugestoesDeEmail(String[] nomes) throws IOException {
         Map<Integer, String> mapa = new HashMap<>();
         int indice = 0;
         switch (nomes.length) {
@@ -37,17 +46,33 @@ public class SugestaoEmailService {
         return mapa;
     }
     
-    // Métodos agragadores de sugestão de nome de email
+    private int verificaSeASugestaoJaExiste(Map <Integer, String> mapa, int indice, String sugestaoDeEmail) throws IOException{
+        
+        for(Aluno aluno : arquivoService.getRegistros()){
+            if(aluno.getUffMail().equals(sugestaoDeEmail)){
+                return indice;
+            }
+        }
+        mapa.put(++indice, sugestaoDeEmail);
+        return indice;
+    }
     
-     private void sugestoesEmailAlunoComMaisTresNomes(Map<Integer, String> mapa, int indice, String[] nomes) {
+    // Métodos agregadores de sugestão de nome de email
+    
+     private void sugestoesEmailAlunoComMaisTresNomes(Map<Integer, String> mapa, int indice, String[] nomes) throws IOException {
         indice = sugestoesEmailAlunoComUmNome(mapa, indice, nomes);
         indice = sugestoesEmailAlunoComDoisNomes(mapa, indice, nomes);
         indice = sugestoesEmailAlunoComTresNomes(mapa, indice, nomes);
     }
     
-    private int sugestoesEmailAlunoComTresNomes(Map<Integer, String> mapa, int indice, String[] nomes){
+    private int sugestoesEmailAlunoComTresNomes(Map<Integer, String> mapa, int indice, String[] nomes) throws IOException{
+        verificaSeASugestaoJaExiste(mapa, indice, criarEmailComPrimeiraLetraSobrenome(nomes));
         mapa.put(++indice, criarEmailComPrimeiraLetraSobrenome(nomes));
+        
+        verificaSeASugestaoJaExiste(mapa, indice, primeiraLetraMaisSobrenomes(nomes));
         mapa.put(++indice, primeiraLetraMaisSobrenomes(nomes));
+        
+        verificaSeASugestaoJaExiste(mapa, indice, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));
         mapa.put(++indice, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));
         return indice;
     }

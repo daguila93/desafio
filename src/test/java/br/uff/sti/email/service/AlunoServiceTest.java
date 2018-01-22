@@ -10,6 +10,7 @@ import br.uff.sti.email.service.csv.CSVService;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -48,7 +49,7 @@ public class AlunoServiceTest {
     
     @Before
     public void setUp() throws IOException {
-        given(this.arquivoService.getRegistros()).willReturn(getFakeRecords());
+        given(this.arquivoService.getRegistros()).willReturn(lerRegistros());
         alunoService = new AlunoService(arquivoService, logger);
     }
 
@@ -64,6 +65,21 @@ public class AlunoServiceTest {
                 .withHeader(CSVService.HEADER)
                 .parse(new FileReader("./src/test/Test.csv"))
                 .getRecords();
+    }
+    
+    private List<Aluno> lerRegistros() throws IOException {
+        List<Aluno> registros = new ArrayList<>();        
+        for(CSVRecord registro : getFakeRecords()){
+            Aluno alunoNovo = new Aluno();
+            alunoNovo.setMatricula(Long.parseLong(registro.get("matricula")));
+            alunoNovo.setNome(registro.get("nome"));
+            alunoNovo.setEmail(registro.get("email"));
+            alunoNovo.setTelefone(registro.get("telefone"));
+            alunoNovo.setStatus(registro.get("status"));
+            alunoNovo.setUffMail(registro.get("uffmail"));
+            registros.add(alunoNovo);
+        }
+        return registros;
     }
 
     @Test

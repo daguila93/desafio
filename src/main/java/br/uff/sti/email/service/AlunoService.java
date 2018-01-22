@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,14 +45,7 @@ public class AlunoService {
     private void inicializarMapAlunos(){
         try {
             CSVService.inicializarServico();
-            for (CSVRecord record : CSVService.getRegistros()) {
-                Aluno aluno = new Aluno();
-                aluno.setNome(record.get("nome"));
-                aluno.setMatricula(Long.valueOf(record.get("matricula")));
-                aluno.setTelefone(record.get("telefone"));
-                aluno.setEmail(record.get("email"));
-                aluno.setUffMail(record.get("uffmail"));
-                aluno.setStatus(record.get("status"));
+            for (Aluno aluno : CSVService.getRegistros()) {                
                 map.put(aluno.getMatricula(), aluno);       
             }
         }catch (FileNotFoundException fnfex) {

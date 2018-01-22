@@ -28,7 +28,7 @@ public class Main {
         Main.alunoService = alunoServiceParam;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         alunoService = new AlunoService();
         Scanner sc = new Scanner(System.in);
         LOGGER.info("Digite sua matrícula: ");
@@ -68,15 +68,18 @@ public class Main {
         LOGGER.info("{} por favor escolha uma das opções abaixo para o seu UFFMail.", aluno.getNome().split(" ")[0]);
 
         Map<Integer, String> mapa = new SugestaoEmailService().criarMapaDeEmail(aluno.getNome());
-
+        
+        //Chamar método de checagem de criação de email aqui
+        
         mapa.entrySet().forEach((entry) -> {
             LOGGER.info(entry.getKey() + " - " + entry.getValue());//
         });
         String emailEscolhido = mapa.get(sc.nextInt());
         if (emailEscolhido != null) {
+//            cSVService.realizarAlteracoesEmAluno(aluno, emailEscolhido);
             LOGGER.info("A criação de seu e-mail (" + emailEscolhido + ") será feita nos próximos minutos.\n"
                     + "Um SMS foi enviado para " + aluno.getTelefone() + " com a sua senha de acesso. ");
-            cSVService.gravarUffMailNoArquivoCSV();
+            
         } else {
             LOGGER.info("Digite uma opção válida.");
         }

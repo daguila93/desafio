@@ -7,6 +7,7 @@ package br.uff.sti.email;
 
 import br.uff.sti.email.modelo.Aluno;
 import br.uff.sti.email.service.AlunoService;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Scanner;
 import static org.hamcrest.CoreMatchers.is;
@@ -16,7 +17,6 @@ import org.junit.After;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
@@ -95,7 +95,7 @@ public class MainTest {
     
     @Test
     @Ignore
-    public void quandoAlunoEValidoRegistraLogParaSugestoesDeEmail(){   
+    public void quandoAlunoEValidoRegistraLogParaSugestoesDeEmail() throws IOException{   
         Aluno aluno = new Aluno();
         aluno.setNome("Guilherme Alves Gonçalves");
         aluno.setStatus("Ativo");
