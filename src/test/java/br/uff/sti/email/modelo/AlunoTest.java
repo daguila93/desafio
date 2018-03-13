@@ -70,8 +70,6 @@ public class AlunoTest {
         assertThat(aluno.toString(), containsString("uffMail="));
         assertThat(aluno.toString(), containsString("email=email@gmail.com"));
         assertThat(aluno.toString(), containsString("status=Ativo"));
-    }
+    }    
 
-          
-    
 }

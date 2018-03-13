@@ -24,7 +24,7 @@ public class SugestaoEmailServiceTest {
     private SugestaoEmailService service;
     
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         service = new SugestaoEmailService();
     }
     

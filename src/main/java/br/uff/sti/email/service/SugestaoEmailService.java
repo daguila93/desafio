@@ -20,8 +20,8 @@ public class SugestaoEmailService {
 
     private final CSVService arquivoService;
 
-    public SugestaoEmailService() {
-        arquivoService = new CSVService();
+    public SugestaoEmailService() throws IOException{
+        arquivoService = new CSVService().inicializarServico();
     }    
     
     //Mapeando a criação de E-mails e métodos de cada um dos possíveis e-mails.

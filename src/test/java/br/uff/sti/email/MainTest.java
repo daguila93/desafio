@@ -56,11 +56,6 @@ public class MainTest {
     }
 
     @Test
-    public void testMain() {
-        //Main.main(null);
-    }
-
-    @Test
     public void quandoAlunoAtivoESemUffMailEntaoAlunoValidoParaSugestao() {
         Aluno alunoAtivo = new Aluno();
         alunoAtivo.setStatus("Ativo");
@@ -103,4 +98,5 @@ public class MainTest {
         Main.mostrarSugestoesDeEmail(aluno, new Scanner(System.in));       
         verify(principal.getLOGGER(), times(7)).info(anyString());        
     }
+    
 }

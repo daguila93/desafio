@@ -22,15 +22,17 @@ public class Main {
 
     private static AlunoService alunoService;
     private static CSVService cSVService;
+    private static Scanner sc;
 
     public Main(AlunoService alunoServiceParam, Logger log) {
-        Main.LOGGER = log;
-        Main.alunoService = alunoServiceParam;
+        LOGGER = log;
+        alunoService = alunoServiceParam;
     }
 
     public static void main(String[] args) throws IOException {
+        Main main = new Main(alunoService, sc);
         alunoService = new AlunoService();
-        Scanner sc = new Scanner(System.in);
+        sc = new Scanner(System.in);
         LOGGER.info("Digite sua matrícula: ");
 
         try {
@@ -47,7 +49,9 @@ public class Main {
                 }
             }
         } catch (InputMismatchException e) {
-            LOGGER.info("Digite uma matrícula válida.");
+            LOGGER.warn("Digite uma matrícula válida.");
+        } catch (IOException ioex){
+            LOGGER.error("Problema ao carregar arquivo de alunos.", ioex);
         }
     }
 
@@ -72,7 +76,7 @@ public class Main {
         //Chamar método de checagem de criação de email aqui
         
         mapa.entrySet().forEach((entry) -> {
-            LOGGER.info(entry.getKey() + " - " + entry.getValue());//
+            LOGGER.info(entry.getKey() + " - " + entry.getValue());
         });
         String emailEscolhido = mapa.get(sc.nextInt());
         if (emailEscolhido != null) {
@@ -83,6 +87,10 @@ public class Main {
         } else {
             LOGGER.info("Digite uma opção válida.");
         }
+    }
+
+    private Main(AlunoService alunoService, Scanner sc) {
+        
     }
 
     Logger getLOGGER() {

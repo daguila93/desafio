@@ -8,7 +8,6 @@ package br.uff.sti.email.service.csv;
 import br.uff.sti.email.modelo.Aluno;
 import java.io.IOException;
 import java.util.List;
-import org.apache.commons.csv.CSVRecord;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -58,4 +57,25 @@ public class CSVServiceTest {
         assertThat(servico.getNomeDoArquivo(), is("./Arquivo.csv"));
         assertThat(servico.getLOGGER().getName(), is("br.uff.sti.email.service.csv.CSVService"));
     }
+
+    @Test
+    public void testInicializarServico() throws Exception {
+    }
+
+    @Test
+    public void testGetRegistros() throws Exception {
+    }
+
+    @Test
+    public void testSetRegistros() {
+    }
+
+    @Test
+    public void testGetNomeDoArquivo() {
+    }
+
+    @Test
+    public void testGetLOGGER() {
+    }
+    
 }

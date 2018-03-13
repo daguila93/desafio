@@ -23,9 +23,9 @@ public class AlunoService {
     private Logger LOGGER;
     
     //Mapeando os objetos (ALUNO) com o HASHMAP
-    Map<Long, Aluno> map;
+    private Map<Long, Aluno> map;
     
-    CSVService CSVService;
+    private CSVService CSVService;
 
     public AlunoService() {
         this(new CSVService());

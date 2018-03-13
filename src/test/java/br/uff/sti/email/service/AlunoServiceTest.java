@@ -130,5 +130,6 @@ public class AlunoServiceTest {
     @Test
     public void testMatriculaNula(){
         assertThat(alunoService.getAluno(1L).isPresent(), is(false)); 
-    }   
+    }
+    
 }

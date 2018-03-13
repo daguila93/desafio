@@ -96,23 +96,22 @@ public class CSVService {
 //        }       
 //    } 
     
-   public Aluno encontrarAlunoNoArquivoCSV(Aluno aluno) throws IOException{
-       for(Aluno alunoAtual : getRegistros()){
-           if(alunoAtual.getMatricula().equals(aluno.getMatricula())){
-               return alunoAtual;
-           }
-       }
-       throw new IllegalStateException("Não encontrou aluno no arquivo, mas deveria.");
-    }
-   
-   public void alteraRegistroAlunoNoArquivoCSV(Aluno aluno, String emailEscolhido) throws IOException{
-       aluno.setUffMail(emailEscolhido);
-   }
+//   public Aluno encontrarAlunoNoArquivoCSV() throws IOException{
+//       for(Aluno alunoAtual : getRegistros()){
+//           if(alunoAtual.getMatricula().equals(aluno.getMatricula())){
+//               return alunoAtual;
+//           }
+//       }
+//       throw new IllegalStateException("Não encontrou aluno no arquivo, mas deveria.");
+//    }
     
-    public CSVService gravarUffMailNoArquivoCSV() throws IOException{
-        
-        return this;
-    }
+//    public void alteraRegistroAlunoNoArquivoCSV(Aluno aluno, String emailEscolhido) throws IOException{
+//       aluno.setUffMail(emailEscolhido);
+//   }
+    
+//    public CSVService gravarUffMailNoArquivoCSV() throws IOException{        
+//        return this;
+//    }
     /**
      * Retorna os registros dos alunos que estão no csv.
      *
