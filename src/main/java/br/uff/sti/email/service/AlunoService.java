@@ -38,7 +38,7 @@ public class AlunoService {
     public AlunoService(CSVService CSVService, Logger logger) {
         this.CSVService = CSVService;
         this.LOGGER = logger;
-        map = new HashMap<>();        
+        map = new HashMap<>();
         inicializarMapAlunos();
     }
     

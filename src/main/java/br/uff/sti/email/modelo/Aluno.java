@@ -76,7 +76,7 @@ public class Aluno {
 
     @Override
     public String toString() {
-        return "Aluno{" + "nome=" + nome + ", matricula=" + matricula + ", telefone=" + telefone + ", email=" + email + ", uffMail=" + uffMail + ", status=" + status + '}';
+        return "Aluno{" + "nome" + nome + ",matricula" + matricula + ",telefone" + telefone + ",email" + email + ",uffMail" + uffMail + ",status" + status + '}';
     }
 
 }

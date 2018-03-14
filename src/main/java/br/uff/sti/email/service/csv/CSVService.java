@@ -8,6 +8,7 @@ package br.uff.sti.email.service.csv;
 import br.uff.sti.email.modelo.Aluno;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,6 +84,17 @@ public class CSVService {
         }
         return this.registros;
     }
+    
+    public String salvarMudancaNoCSV(String email) throws IOException {
+        Aluno aluno = new Aluno();
+        FileWriter fw = new FileWriter(aluno.toString());
+        try(CSVPrinter printer = new CSVPrinter(fw, CSVFormat.EXCEL) ) {
+            printer.printRecords(registros);       
+        } catch (Exception e) {
+            
+        }
+        return null;
+    }
 
 //    public void realizarAlteracoesEmAluno(Aluno aluno, String emailEscolhido){
 //        System.out.println("entrou aqui");
@@ -89,14 +102,14 @@ public class CSVService {
 //            Aluno alunoEncontrado = encontrarAlunoNoArquivoCSV(aluno);
 //            alteraRegistroAlunoNoArquivoCSV(alunoEncontrado, emailEscolhido);
 //            LOGGER.info(registros.get(registros.indexOf(alunoEncontrado)).toString());
-////            this.gravarUffMailNoArquivoCSV();
+//            this.gravarUffMailNoArquivoCSV();
 //        } catch (IOException | IllegalStateException ex) {
 //            LOGGER.error("Erro ao realizar alterações no aluno {} - {}",
 //                    aluno.getMatricula(), ex.getMessage());
 //        }       
 //    } 
-    
-//   public Aluno encontrarAlunoNoArquivoCSV() throws IOException{
+//    
+//   public Aluno encontrarAlunoNoArquivoCSV(Aluno aluno) throws IOException{
 //       for(Aluno alunoAtual : getRegistros()){
 //           if(alunoAtual.getMatricula().equals(aluno.getMatricula())){
 //               return alunoAtual;
@@ -104,11 +117,11 @@ public class CSVService {
 //       }
 //       throw new IllegalStateException("Não encontrou aluno no arquivo, mas deveria.");
 //    }
-    
+//    
 //    public void alteraRegistroAlunoNoArquivoCSV(Aluno aluno, String emailEscolhido) throws IOException{
 //       aluno.setUffMail(emailEscolhido);
-//   }
-    
+//    }
+//    
 //    public CSVService gravarUffMailNoArquivoCSV() throws IOException{        
 //        return this;
 //    }
