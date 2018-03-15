@@ -63,16 +63,13 @@ public class CSVService {
     }
 
     private CSVService carregarArquivo() throws IOException {
-        this.parserArquivo = CSVFormat.EXCEL
-                .withFirstRecordAsHeader()
-                .withHeader(HEADER)
-                .parse(leitorArquivo);
+        this.parserArquivo = getCSVFormat().parse(leitorArquivo);
         return this;
     }
 
     protected List<Aluno> lerRegistros() throws IOException {
-        this.registros = new ArrayList<>();        
-        for(CSVRecord registro : parserArquivo.getRecords()){
+        this.registros = new ArrayList<>();
+        for (CSVRecord registro : parserArquivo.getRecords()) {
             Aluno alunoNovo = new Aluno();
             alunoNovo.setMatricula(Long.parseLong(registro.get("matricula")));
             alunoNovo.setNome(registro.get("nome"));
@@ -84,16 +81,16 @@ public class CSVService {
         }
         return this.registros;
     }
-    
-    public String salvarMudancaNoCSV(String email) throws IOException {
-        Aluno aluno = new Aluno();
-        FileWriter fw = new FileWriter(aluno.toString());
-        try(CSVPrinter printer = new CSVPrinter(fw, CSVFormat.EXCEL) ) {
-            printer.printRecords(registros);       
+
+    public String salvarMudancaNoCSV(Aluno aluno, String emailEscolhido) throws IOException {
+        
+        try ( FileWriter fw = new FileWriter(nomeDoArquivo);
+              CSVPrinter printer = new CSVPrinter(fw, getCSVFormat());) {
+            printer.printRecords(registros.toArray());
         } catch (Exception e) {
-            
+            System.out.println("Mas não foi possível salvar no CSV.");
         }
-        return null;
+        return "";
     }
 
 //    public void realizarAlteracoesEmAluno(Aluno aluno, String emailEscolhido){
@@ -137,6 +134,11 @@ public class CSVService {
                 : lerRegistros();
     }
 
+    private CSVFormat getCSVFormat() {
+        CSVFormat csvFormat = CSVFormat.EXCEL.withFirstRecordAsHeader().withHeader(HEADER);
+        return csvFormat;
+    }
+
     public void setRegistros(List<Aluno> registros) {
         this.registros = registros;
     }
@@ -148,4 +150,5 @@ public class CSVService {
     public Logger getLOGGER() {
         return LOGGER;
     }
+
 }

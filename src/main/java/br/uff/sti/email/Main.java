@@ -83,7 +83,7 @@ public class Main {
 //            cSVService.realizarAlteracoesEmAluno(aluno, emailEscolhido);
             LOGGER.info("A criação de seu e-mail (" + emailEscolhido + ") será feita nos próximos minutos.\n"
                     + "Um SMS foi enviado para " + aluno.getTelefone() + " com a sua senha de acesso. ");
-            cSVService.salvarMudancaNoCSV(emailEscolhido);
+            cSVService.salvarMudancaNoCSV(aluno, emailEscolhido);
             
         } else {
             LOGGER.info("Digite uma opção válida.");

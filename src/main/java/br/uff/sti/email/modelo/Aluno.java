@@ -76,7 +76,14 @@ public class Aluno {
 
     @Override
     public String toString() {
-        return "Aluno{" + "nome" + nome + ",matricula" + matricula + ",telefone" + telefone + ",email" + email + ",uffMail" + uffMail + ",status" + status + '}';
+        return new StringBuilder()
+                .append(nome).append(",")
+                .append(matricula).append(",")
+                .append(telefone).append(",")
+                .append(email).append(",")
+                .append(uffMail).append(",")
+                .append(status).append(",")
+                .toString();        
     }
 
 }

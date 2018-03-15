@@ -64,12 +64,12 @@ public class AlunoTest {
 
     @Test
     public void testToString() {
-        assertThat(aluno.toString(), containsString("nome=Edil D'Aguila Rocha"));
-        assertThat(aluno.toString(), containsString("matricula=1180000001"));
-        assertThat(aluno.toString(), containsString("telefone=99999-9999"));
-        assertThat(aluno.toString(), containsString("uffMail="));
-        assertThat(aluno.toString(), containsString("email=email@gmail.com"));
-        assertThat(aluno.toString(), containsString("status=Ativo"));
+        assertThat(aluno.toString(), containsString("Edil D'Aguila Rocha,"));
+        assertThat(aluno.toString(), containsString("1180000001,"));
+        assertThat(aluno.toString(), containsString("99999-9999,"));
+        assertThat(aluno.toString(), containsString(","));
+        assertThat(aluno.toString(), containsString("email@gmail.com,"));
+        assertThat(aluno.toString(), containsString("Ativo,"));
     }    
 
 }
