@@ -82,7 +82,7 @@ public class Aluno {
                 .append(telefone).append(",")
                 .append(email).append(",")
                 .append(uffMail).append(",")
-                .append(status).append(",")
+                .append(status)
                 .toString();        
     }
 

@@ -6,6 +6,7 @@
 package br.uff.sti.email.service.csv;
 
 import br.uff.sti.email.modelo.Aluno;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -38,6 +39,7 @@ public class CSVService {
     private Reader leitorArquivo;
     private CSVParser parserArquivo;
     private List<Aluno> registros;
+    private final String CAMINHODOARQUIVOANTIGO = "./ArquivoQueVaiSerApagado.csv";
 
     public CSVService() {
         this("./Arquivo.csv");
@@ -82,46 +84,37 @@ public class CSVService {
         return this.registros;
     }
 
-    public String salvarMudancaNoCSV(Aluno aluno, String emailEscolhido) throws IOException {
-        
-        try ( FileWriter fw = new FileWriter(nomeDoArquivo);
-              CSVPrinter printer = new CSVPrinter(fw, getCSVFormat());) {
-            printer.printRecords(registros.toArray());
+    public void salvarMudancaNoCSV(Aluno aluno) {
+        try {
+            FileWriter fileWriter = new FileWriter("./novo.csv");
+            CSVPrinter printer = new CSVPrinter(fileWriter, getCSVFormat().withQuote(null));
+
+            for (Aluno registro : registros) {
+                if (registro.getMatricula().equals(aluno.getMatricula())) {
+                    registro = aluno;
+                }
+                printer.printRecord(registro);
+            }
+            alteraNomeDoArquivo();
+            apagarArquivoAntigo();
+            printer.flush();
+            printer.close();
         } catch (Exception e) {
-            System.out.println("Mas não foi possível salvar no CSV.");
+            e.printStackTrace();
         }
-        return "";
+    }
+    
+    private void alteraNomeDoArquivo() {
+        new File("Arquivo.csv").renameTo(new File("ArquivoQueVaiSerApagado.csv"));
+        new File("novo.csv").renameTo(new File("Arquivo.csv"));
     }
 
-//    public void realizarAlteracoesEmAluno(Aluno aluno, String emailEscolhido){
-//        System.out.println("entrou aqui");
-//        try {
-//            Aluno alunoEncontrado = encontrarAlunoNoArquivoCSV(aluno);
-//            alteraRegistroAlunoNoArquivoCSV(alunoEncontrado, emailEscolhido);
-//            LOGGER.info(registros.get(registros.indexOf(alunoEncontrado)).toString());
-//            this.gravarUffMailNoArquivoCSV();
-//        } catch (IOException | IllegalStateException ex) {
-//            LOGGER.error("Erro ao realizar alterações no aluno {} - {}",
-//                    aluno.getMatricula(), ex.getMessage());
-//        }       
-//    } 
-//    
-//   public Aluno encontrarAlunoNoArquivoCSV(Aluno aluno) throws IOException{
-//       for(Aluno alunoAtual : getRegistros()){
-//           if(alunoAtual.getMatricula().equals(aluno.getMatricula())){
-//               return alunoAtual;
-//           }
-//       }
-//       throw new IllegalStateException("Não encontrou aluno no arquivo, mas deveria.");
-//    }
-//    
-//    public void alteraRegistroAlunoNoArquivoCSV(Aluno aluno, String emailEscolhido) throws IOException{
-//       aluno.setUffMail(emailEscolhido);
-//    }
-//    
-//    public CSVService gravarUffMailNoArquivoCSV() throws IOException{        
-//        return this;
-//    }
+    private void apagarArquivoAntigo(){
+        File f = new File(CAMINHODOARQUIVOANTIGO);
+         f.delete();
+            
+    }
+    
     /**
      * Retorna os registros dos alunos que estão no csv.
      *
@@ -135,8 +128,7 @@ public class CSVService {
     }
 
     private CSVFormat getCSVFormat() {
-        CSVFormat csvFormat = CSVFormat.EXCEL.withFirstRecordAsHeader().withHeader(HEADER);
-        return csvFormat;
+        return CSVFormat.EXCEL.withFirstRecordAsHeader().withHeader(HEADER);
     }
 
     public void setRegistros(List<Aluno> registros) {

@@ -3,7 +3,6 @@ package br.uff.sti.email;
 import br.uff.sti.email.modelo.Aluno;
 import br.uff.sti.email.service.AlunoService;
 import br.uff.sti.email.service.SugestaoEmailService;
-import br.uff.sti.email.service.csv.CSVService;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Map;
@@ -21,7 +20,6 @@ public class Main {
     private static Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     private static AlunoService alunoService;
-    private static CSVService cSVService;
     private static Scanner sc;
 
     public Main(AlunoService alunoServiceParam, Logger log) {
@@ -80,10 +78,9 @@ public class Main {
         });
         String emailEscolhido = mapa.get(sc.nextInt());
         if (emailEscolhido != null) {
-//            cSVService.realizarAlteracoesEmAluno(aluno, emailEscolhido);
             LOGGER.info("A criação de seu e-mail (" + emailEscolhido + ") será feita nos próximos minutos.\n"
                     + "Um SMS foi enviado para " + aluno.getTelefone() + " com a sua senha de acesso. ");
-            cSVService.salvarMudancaNoCSV(aluno, emailEscolhido);
+            alunoService.atualizarUffMail(aluno, emailEscolhido);
             
         } else {
             LOGGER.info("Digite uma opção válida.");

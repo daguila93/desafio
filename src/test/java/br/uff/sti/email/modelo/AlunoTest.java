@@ -64,12 +64,7 @@ public class AlunoTest {
 
     @Test
     public void testToString() {
-        assertThat(aluno.toString(), containsString("Edil D'Aguila Rocha,"));
-        assertThat(aluno.toString(), containsString("1180000001,"));
-        assertThat(aluno.toString(), containsString("99999-9999,"));
-        assertThat(aluno.toString(), containsString(","));
-        assertThat(aluno.toString(), containsString("email@gmail.com,"));
-        assertThat(aluno.toString(), containsString("Ativo,"));
+        assertThat(aluno.toString(), containsString("Edil D'Aguila Rocha,1180000001,99999-9999,email@gmail.com,,Ativo"));
     }    
 
 }

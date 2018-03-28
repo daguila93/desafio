@@ -93,6 +93,14 @@ public class AlunoServiceTest {
         assertThat(aluno.getTelefone(), is(equalTo("99999-9999")));
         assertThat(alunoService.getMap().size(), is(1));
     }
+    
+    @Test    
+    public void testAtualizarUffMail(Aluno aluno, String uffMail){
+        CSVService cSVService = new CSVService("./src/test/Test.csv");
+        aluno.setUffMail(uffMail);
+        cSVService.salvarMudancaNoCSV(aluno);
+        assertThat(aluno.getUffMail(), is(equalTo("edil.rocha@id.uff.br")));
+    }
 
     @Test
     public void testCatchIOException() throws Exception {

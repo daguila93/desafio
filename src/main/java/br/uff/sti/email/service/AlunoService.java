@@ -54,6 +54,11 @@ public class AlunoService {
             LOGGER.error("Erro ao inicializar mapa de alunos.");
         }
     }
+    
+    public void atualizarUffMail(Aluno aluno, String uffMail) {
+        aluno.setUffMail(uffMail);
+        CSVService.salvarMudancaNoCSV(aluno);
+    }
 
     public Optional<Aluno> getAluno(Long matricula) {
         return Optional.ofNullable(map.get(matricula));
