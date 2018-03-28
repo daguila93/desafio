@@ -95,10 +95,10 @@ public class AlunoServiceTest {
     }
     
     @Test    
-    public void testAtualizarUffMail(Aluno aluno, String uffMail){
+    public void testAtualizarUffMail() throws IOException{
         CSVService cSVService = new CSVService("./src/test/Test.csv");
-        aluno.setUffMail(uffMail);
-        cSVService.salvarMudancaNoCSV(aluno);
+        Aluno aluno = alunoService.getMap().get(1180000001L);
+        alunoService.atualizarUffMail(aluno, "edil.rocha@id.uff.br");
         assertThat(aluno.getUffMail(), is(equalTo("edil.rocha@id.uff.br")));
     }
 

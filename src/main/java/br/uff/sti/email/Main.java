@@ -92,6 +92,6 @@ public class Main {
     }
 
     Logger getLOGGER() {
-        return LOGGER;
+       return LOGGER;
     }
 }

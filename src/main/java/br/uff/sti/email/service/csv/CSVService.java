@@ -69,7 +69,7 @@ public class CSVService {
         return this;
     }
 
-    protected List<Aluno> lerRegistros() throws IOException {
+    public List<Aluno> lerRegistros() throws IOException {
         this.registros = new ArrayList<>();
         for (CSVRecord registro : parserArquivo.getRecords()) {
             Aluno alunoNovo = new Aluno();
@@ -142,5 +142,4 @@ public class CSVService {
     public Logger getLOGGER() {
         return LOGGER;
     }
-
 }
