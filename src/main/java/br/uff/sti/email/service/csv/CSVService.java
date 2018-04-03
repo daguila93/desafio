@@ -104,12 +104,12 @@ public class CSVService {
         }
     }
     
-    private void alteraNomeDoArquivo() {
-        new File("Arquivo.csv").renameTo(new File("ArquivoQueVaiSerApagado.csv"));
-        new File("novo.csv").renameTo(new File("Arquivo.csv"));
+    public void alteraNomeDoArquivo() {
+        new File(nomeDoArquivo).renameTo(new File("ArquivoQueVaiSerApagado.csv"));
+        new File("novo.csv").renameTo(new File(nomeDoArquivo));
     }
 
-    private void apagarArquivoAntigo(){
+    public void apagarArquivoAntigo(){
         File f = new File(CAMINHODOARQUIVOANTIGO);
          f.delete();
             

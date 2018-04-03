@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="8" failures="0" name="br.uff.sti.email.service.AlunoServiceTest" time="0.065" errors="0" skipped="0">
+<testsuite tests="8" failures="0" name="br.uff.sti.email.service.AlunoServiceTest" time="0.089" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-oracle/jre/lib/amd64"/>
@@ -31,7 +31,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="os.version" value="4.13.0-37-generic"/>
+    <property name="os.version" value="4.13.0-38-generic"/>
     <property name="user.home" value="/home/edil"/>
     <property name="user.timezone" value="America/Sao_Paulo"/>
     <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
@@ -59,11 +59,11 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="br.uff.sti.email.service.AlunoServiceTest" name="testCatchFileNotFoundException" time="0.022"/>
+  <testcase classname="br.uff.sti.email.service.AlunoServiceTest" name="testCatchFileNotFoundException" time="0.026"/>
   <testcase classname="br.uff.sti.email.service.AlunoServiceTest" name="testInicializarMapAlunosComSucesso" time="0.001"/>
   <testcase classname="br.uff.sti.email.service.AlunoServiceTest" name="testConstrutorVazioExisteInstancia" time="0.009"/>
-  <testcase classname="br.uff.sti.email.service.AlunoServiceTest" name="testAtualizarUffMail" time="0.002"/>
-  <testcase classname="br.uff.sti.email.service.AlunoServiceTest" name="testMatriculaNula" time="0"/>
+  <testcase classname="br.uff.sti.email.service.AlunoServiceTest" name="testAtualizarUffMail" time="0.021"/>
+  <testcase classname="br.uff.sti.email.service.AlunoServiceTest" name="testMatriculaNula" time="0.001"/>
   <testcase classname="br.uff.sti.email.service.AlunoServiceTest" name="testReturnLogger" time="0.002"/>
   <testcase classname="br.uff.sti.email.service.AlunoServiceTest" name="testCatchIOException" time="0.003"/>
   <testcase classname="br.uff.sti.email.service.AlunoServiceTest" name="testMatriculaNaoNula" time="0.001"/>

@@ -99,6 +99,7 @@ public class AlunoServiceTest {
         CSVService cSVService = new CSVService("./src/test/Test.csv");
         Aluno aluno = alunoService.getMap().get(1180000001L);
         alunoService.atualizarUffMail(aluno, "edil.rocha@id.uff.br");
+        cSVService.salvarMudancaNoCSV(aluno);
         assertThat(aluno.getUffMail(), is(equalTo("edil.rocha@id.uff.br")));
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="8" failures="0" name="br.uff.sti.email.service.csv.CSVServiceTest" time="0.021" errors="0" skipped="0">
+<testsuite tests="9" failures="1" name="br.uff.sti.email.service.csv.CSVServiceTest" time="0.033" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-oracle/jre/lib/amd64"/>
@@ -31,7 +31,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="os.version" value="4.13.0-37-generic"/>
+    <property name="os.version" value="4.13.0-38-generic"/>
     <property name="user.home" value="/home/edil"/>
     <property name="user.timezone" value="America/Sao_Paulo"/>
     <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
@@ -59,12 +59,55 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="testLerRegistroQuandoRegistrosSaoNulos" time="0.004"/>
+  <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="testLerRegistroQuandoRegistrosSaoNulos" time="0.005"/>
   <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="testSetRegistros" time="0.001"/>
   <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="testGetNomeDoArquivo" time="0.001"/>
   <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="testConstrutorVazioValorDefault" time="0.001"/>
   <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="testInicializarServico" time="0.001"/>
   <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="testGetRegistros" time="0.001"/>
-  <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="testGetLOGGER" time="0.001"/>
-  <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="testLerRegistros" time="0.001"/>
+  <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="testGetLOGGER" time="0"/>
+  <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="apagarArquivoAntigo" time="0.002"/>
+  <testcase classname="br.uff.sti.email.service.csv.CSVServiceTest" name="testLerRegistros" time="0.014">
+    <failure message="
+Expected: a collection with size &lt;1&gt;
+     but: collection size was &lt;0&gt;" type="java.lang.AssertionError">java.lang.AssertionError: 
+Expected: a collection with size &lt;1&gt;
+     but: collection size was &lt;0&gt;
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.junit.Assert.assertThat(Assert.java:956)
+	at org.junit.Assert.assertThat(Assert.java:923)
+	at br.uff.sti.email.service.csv.CSVServiceTest.testLerRegistros(CSVServiceTest.java:43)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:53)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:123)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:104)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:164)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:110)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
+</failure>
+  </testcase>
 </testsuite>
