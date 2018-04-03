@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CSVService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">DesafioEmail</a> &gt; <a href="index.source.html" class="el_package">br.uff.sti.email.service.csv</a> &gt; <span class="el_source">CSVService.java</span></div><h1>CSVService.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.uff.sti.email.service.csv;
+
+import br.uff.sti.email.modelo.Aluno;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ *
+ * @author edil
+ */
+public class CSVService {
+
+    Map&lt;Long, Aluno&gt; map;
+    private Logger LOGGER;
+
+<span class="fc" id="L33">    public static final String[] HEADER = {</span>
+        &quot;nome&quot;, &quot;matricula&quot;, &quot;telefone&quot;, &quot;email&quot;, &quot;uffmail&quot;, &quot;status&quot;
+    };
+    
+    private static final char NULL_QUOTE = '\u0000';
+
+    private String nomeDoArquivo;
+    private Reader leitorArquivo;
+    private CSVParser parserArquivo;
+    private List&lt;Aluno&gt; registros;
+
+    public CSVService() {
+<span class="fc" id="L45">        this(&quot;./Arquivo.csv&quot;);</span>
+<span class="fc" id="L46">    }</span>
+
+    public CSVService(String nomeDoArquivo) {
+<span class="fc" id="L49">        this(nomeDoArquivo, LoggerFactory.getLogger(CSVService.class));</span>
+<span class="fc" id="L50">    }</span>
+
+<span class="fc" id="L52">    public CSVService(String nomeDoArquivo, Logger log) {</span>
+<span class="fc" id="L53">        this.nomeDoArquivo = nomeDoArquivo;</span>
+<span class="fc" id="L54">        this.LOGGER = log;</span>
+<span class="fc" id="L55">    }</span>
+
+    public CSVService inicializarServico() throws FileNotFoundException, IOException {
+<span class="fc" id="L58">        inicializarLeitorArquivo().carregarArquivo();</span>
+<span class="fc" id="L59">        return this;</span>
+    }
+
+    private CSVService inicializarLeitorArquivo() throws FileNotFoundException {
+<span class="fc" id="L63">        this.leitorArquivo = new FileReader(nomeDoArquivo);</span>
+<span class="fc" id="L64">        return this;</span>
+    }
+
+    private CSVService carregarArquivo() throws IOException {
+<span class="fc" id="L68">        this.parserArquivo = getCSVFormat().parse(leitorArquivo);</span>
+<span class="fc" id="L69">        return this;</span>
+    }
+
+    protected List&lt;Aluno&gt; lerRegistros() throws IOException {
+<span class="fc" id="L73">        this.registros = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (CSVRecord registro : parserArquivo.getRecords()) {</span>
+<span class="fc" id="L75">            Aluno alunoNovo = new Aluno();</span>
+<span class="fc" id="L76">            alunoNovo.setMatricula(Long.parseLong(registro.get(&quot;matricula&quot;)));</span>
+<span class="fc" id="L77">            alunoNovo.setNome(registro.get(&quot;nome&quot;));</span>
+<span class="fc" id="L78">            alunoNovo.setEmail(registro.get(&quot;email&quot;));</span>
+<span class="fc" id="L79">            alunoNovo.setTelefone(registro.get(&quot;telefone&quot;));</span>
+<span class="fc" id="L80">            alunoNovo.setStatus(registro.get(&quot;status&quot;));</span>
+<span class="fc" id="L81">            alunoNovo.setUffMail(registro.get(&quot;uffmail&quot;));</span>
+<span class="fc" id="L82">            registros.add(alunoNovo);</span>
+<span class="fc" id="L83">        }</span>
+<span class="fc" id="L84">        return this.registros;</span>
+    }
+
+    public void salvarMudancaNoCSV(Aluno aluno) {
+        try {
+<span class="nc" id="L89">            FileWriter fileWriter = new FileWriter(&quot;./novo.csv&quot;);</span>
+<span class="nc" id="L90">            CSVPrinter printer = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withHeader(HEADER).withQuote(NULL_QUOTE));</span>
+
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            for (Aluno registro : registros) {</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                if (registro.getMatricula().equals(aluno.getMatricula())) {</span>
+<span class="nc" id="L94">                    registro = aluno;</span>
+                }
+<span class="nc" id="L96">                printer.printRecord(registro);</span>
+<span class="nc" id="L97">            }</span>
+<span class="nc" id="L98">            printer.flush();</span>
+<span class="nc" id="L99">            printer.close();</span>
+<span class="nc" id="L100">        } catch (Exception e) {</span>
+<span class="nc" id="L101">            e.printStackTrace();</span>
+<span class="nc" id="L102">        }</span>
+<span class="nc" id="L103">    }</span>
+    
+    /**
+     * Retorna os registros dos alunos que estão no csv.
+     *
+     * @return
+     * @throws IOException
+     */
+    public List&lt;Aluno&gt; getRegistros() throws IOException {
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">        return this.registros != null</span>
+                ? this.registros
+<span class="fc" id="L114">                : lerRegistros();</span>
+    }
+
+    private CSVFormat getCSVFormat() {
+<span class="fc" id="L118">        CSVFormat csvFormat = CSVFormat.EXCEL.withFirstRecordAsHeader().withHeader(HEADER);</span>
+<span class="fc" id="L119">        return csvFormat;</span>
+    }
+
+    public void setRegistros(List&lt;Aluno&gt; registros) {
+<span class="fc" id="L123">        this.registros = registros;</span>
+<span class="fc" id="L124">    }</span>
+
+    public String getNomeDoArquivo() {
+<span class="fc" id="L127">        return nomeDoArquivo;</span>
+    }
+
+    public Logger getLOGGER() {
+<span class="fc" id="L131">        return LOGGER;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
