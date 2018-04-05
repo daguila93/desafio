@@ -17,15 +17,19 @@ import org.apache.commons.csv.CSVRecord;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import org.hamcrest.Matchers;
 import org.junit.After;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -132,13 +136,17 @@ public class AlunoServiceTest {
     }
     
     @Test
-    public void testMatriculaNaoNula(){
-        assertThat(alunoService.getAluno(1180000001L).isPresent(), is(true)); 
+    public void testMatriculaNaoNula() {
+        assertTrue(alunoService.getAluno(1180000001L).isPresent());
     }
-    
+
     @Test
-    public void testMatriculaNula(){
-        assertThat(alunoService.getAluno(1L).isPresent(), is(false)); 
+    public void testMatriculaNula() {
+        assertFalse(alunoService.getAluno(1L).isPresent());
     }
-    
+
+    @Test
+    public void testGetMap() {
+        assertThat(alunoService.getMap(), is(notNullValue()));
+    }
 }

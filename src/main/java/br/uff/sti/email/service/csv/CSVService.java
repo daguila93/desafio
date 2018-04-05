@@ -149,10 +149,7 @@ public class CSVService {
         //Printar o Cabeçalho
         for (String HEADER1 : HEADER) {
             printer.print(HEADER1);
-        }
-        
+        }        
         printer.println();
-        
-//        System.out.println("\r\n");
     }
 }

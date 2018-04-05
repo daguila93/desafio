@@ -14,6 +14,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -51,15 +52,30 @@ public class AlunoTest {
                 .parse(new FileReader("./src/test/Test.csv"))
                 .getRecords();
     }
+    
+    @Test
+    public void testTelefoneAluno(){
+        assertThat(aluno.getTelefone(), is(equalTo("99999-9999")));
+    }
+    
+    @Test
+    public void testNomeAluno(){
+        assertThat(aluno.getNome(), is(equalTo("Edil D'Aguila Rocha")));
+    }
+    
+    @Test
+    public void testEmailAluno(){
+        assertThat(aluno.getEmail(), is(equalTo("email@gmail.com")));
+    }
 
     @Test
     public void testIsAtivo() {
-        assertThat(aluno.isAtivo(), is(true));
+        assertTrue(aluno.isAtivo());
     }
 
     @Test
     public void testHasUffmail() {
-        assertThat(aluno.hasUffmail(), is(false));
+        assertFalse(aluno.hasUffmail());
     }
 
     @Test
