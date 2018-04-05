@@ -15,7 +15,6 @@ import static org.hamcrest.Matchers.hasSize;
 import org.junit.After;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -60,7 +59,8 @@ public class CSVServiceTest {
     }
     
     @Test
-    public void apagarArquivoAntigo() throws IOException{        
+    public void apagarArquivoAntigo() throws IOException{
+        service.apagarArquivoAntigo();
         service.salvarMudancaNoCSV((Aluno) service.getRegistros().get(0));
     }
 

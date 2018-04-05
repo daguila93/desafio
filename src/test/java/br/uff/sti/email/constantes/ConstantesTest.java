@@ -6,10 +6,13 @@
 package br.uff.sti.email.constantes;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+
 
 /**
  *
@@ -27,10 +30,16 @@ public class ConstantesTest {
     @After
     public void after(){
         constantes = null;
-    }
+    }    
         
     @Test
-    public void testSomeMethod() {
+    public void testConstanteMethod() {
         assertThat(Constantes.DOMAIN_EMAIL, is("@id.uff.br"));
-    }    
+    }
+    
+    @Test
+    public void testClassMethod(){
+        assertThat(constantes, is(notNullValue()));
+    }
+    
 }

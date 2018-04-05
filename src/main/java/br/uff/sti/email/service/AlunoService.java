@@ -50,8 +50,10 @@ public class AlunoService {
             }
         }catch (FileNotFoundException fnfex) {
             LOGGER.error("Erro ao encontrar o arquivo de alunos.");
+            System.exit(0);
         }catch (IOException ex) {
             LOGGER.error("Erro ao inicializar mapa de alunos.");
+            System.exit(0);
         }
     }
     

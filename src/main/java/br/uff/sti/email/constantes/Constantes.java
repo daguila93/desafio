@@ -9,7 +9,7 @@ package br.uff.sti.email.constantes;
  *
  * @author edil
  */
-public class Constantes {
+public final class Constantes {
     //Constantes    
     public static final String DOMAIN_EMAIL = "@id.uff.br";
 }

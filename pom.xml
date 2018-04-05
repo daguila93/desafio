@@ -50,6 +50,7 @@
                 <version>${jacoco-maven-plugin.version}</version>
                 <configuration>
                     <excludes>
+                        <exclude>br.uff.sti.email.constantes.Constantes.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>

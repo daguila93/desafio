@@ -39,10 +39,10 @@ public class CSVService {
     private Reader leitorArquivo;
     private CSVParser parserArquivo;
     private List<Aluno> registros;
-    private final String CAMINHODOARQUIVOANTIGO = "./ArquivoQueVaiSerApagado.csv";
+    private final String CAMINHODOARQUIVOANTIGO = "." + File.separator +"ArquivoQueVaiSerApagado.csv";
 
     public CSVService() {
-        this("./Arquivo.csv");
+        this("." + File.separator + "Arquivo.csv");
     }
 
     public CSVService(String nomeDoArquivo) {
@@ -86,8 +86,10 @@ public class CSVService {
 
     public void salvarMudancaNoCSV(Aluno aluno) {
         try {
-            FileWriter fileWriter = new FileWriter("./novo.csv");
+            FileWriter fileWriter = new FileWriter("." + File.separator + "novo.csv");
             CSVPrinter printer = new CSVPrinter(fileWriter, getCSVFormat().withQuote(null));
+
+            printarCabecalho(printer);
 
             for (Aluno registro : registros) {
                 if (registro.getMatricula().equals(aluno.getMatricula())) {
@@ -141,5 +143,16 @@ public class CSVService {
 
     public Logger getLOGGER() {
         return LOGGER;
+    }
+
+    private void printarCabecalho(CSVPrinter printer) throws IOException {
+        //Printar o Cabeçalho
+        for (String HEADER1 : HEADER) {
+            printer.print(HEADER1);
+        }
+        
+        printer.println();
+        
+//        System.out.println("\r\n");
     }
 }
