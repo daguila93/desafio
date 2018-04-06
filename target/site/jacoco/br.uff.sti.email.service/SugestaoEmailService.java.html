@@ -20,113 +20,113 @@ public class SugestaoEmailService {
 
     private final CSVService arquivoService;
 
-<span class="nc" id="L23">    public SugestaoEmailService() throws IOException{</span>
-<span class="nc" id="L24">        arquivoService = new CSVService().inicializarServico();</span>
-<span class="nc" id="L25">    }    </span>
+<span class="fc" id="L23">    public SugestaoEmailService() throws IOException{</span>
+<span class="fc" id="L24">        arquivoService = new CSVService().inicializarServico();</span>
+<span class="fc" id="L25">    }    </span>
     
     //Mapeando a criação de E-mails e métodos de cada um dos possíveis e-mails.
     public Map&lt;Integer, String&gt; criarMapaDeEmail(String nome) throws IOException {
-<span class="nc" id="L29">        String[] nomes = limparCaracteresEspeciaisEmNome(nome).split(&quot; &quot;);</span>
-<span class="nc" id="L30">        return mapearSugestoesDeEmail(nomes);</span>
+<span class="fc" id="L29">        String[] nomes = limparCaracteresEspeciaisEmNome(nome).split(&quot; &quot;);</span>
+<span class="fc" id="L30">        return mapearSugestoesDeEmail(nomes);</span>
     }
 
     private String limparCaracteresEspeciaisEmNome(String nome) {
-<span class="nc" id="L34">        return nome.replaceAll(&quot;[^a-zA-Z_ ]&quot;, &quot;&quot;);</span>
+<span class="fc" id="L34">        return nome.replaceAll(&quot;[^a-zA-Z_ ]&quot;, &quot;&quot;);</span>
     }
 
     private Map&lt;Integer, String&gt; mapearSugestoesDeEmail(String[] nomes) throws IOException {
-<span class="nc" id="L38">        Map&lt;Integer, String&gt; mapa = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L39">        int indice = 0;</span>
-<span class="nc bnc" id="L40" title="All 4 branches missed.">        switch (nomes.length) {</span>
-<span class="nc" id="L41">            case 3: indice = sugestoesEmailAlunoComTresNomes(mapa, indice, nomes);</span>
-<span class="nc" id="L42">            case 2: indice = sugestoesEmailAlunoComDoisNomes(mapa, indice, nomes);</span>
-<span class="nc" id="L43">            case 1: indice = sugestoesEmailAlunoComUmNome(mapa, indice, nomes); break;</span>
-<span class="nc" id="L44">            default: sugestoesEmailAlunoComMaisTresNomes(mapa, indice, nomes);</span>
+<span class="fc" id="L38">        Map&lt;Integer, String&gt; mapa = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L39">        int indice = 0;</span>
+<span class="fc bfc" id="L40" title="All 4 branches covered.">        switch (nomes.length) {</span>
+<span class="fc" id="L41">            case 3: indice = sugestoesEmailAlunoComTresNomes(mapa, indice, nomes);</span>
+<span class="fc" id="L42">            case 2: indice = sugestoesEmailAlunoComDoisNomes(mapa, indice, nomes);</span>
+<span class="fc" id="L43">            case 1: indice = sugestoesEmailAlunoComUmNome(mapa, indice, nomes); break;</span>
+<span class="fc" id="L44">            default: sugestoesEmailAlunoComMaisTresNomes(mapa, indice, nomes);</span>
         }
-<span class="nc" id="L46">        return mapa;</span>
+<span class="fc" id="L46">        return mapa;</span>
     }
     
     private int verificaSeASugestaoJaExiste(Map &lt;Integer, String&gt; mapa, int indice, String sugestaoDeEmail) throws IOException{
         
-<span class="nc bnc" id="L51" title="All 2 branches missed.">        for(Aluno aluno : arquivoService.getRegistros()){</span>
-<span class="nc bnc" id="L52" title="All 2 branches missed.">            if(aluno.getUffMail().equals(sugestaoDeEmail)){</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        for(Aluno aluno : arquivoService.getRegistros()){</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">            if(aluno.getUffMail().equals(sugestaoDeEmail)){</span>
 <span class="nc" id="L53">                return indice;</span>
             }
-<span class="nc" id="L55">        }</span>
-<span class="nc" id="L56">        mapa.put(++indice, sugestaoDeEmail);</span>
-<span class="nc" id="L57">        return indice;</span>
+<span class="fc" id="L55">        }</span>
+<span class="fc" id="L56">        mapa.put(++indice, sugestaoDeEmail);</span>
+<span class="fc" id="L57">        return indice;</span>
     }
     
     // Métodos agregadores de sugestão de nome de email
     
      private void sugestoesEmailAlunoComMaisTresNomes(Map&lt;Integer, String&gt; mapa, int indice, String[] nomes) throws IOException {
-<span class="nc" id="L63">        indice = sugestoesEmailAlunoComUmNome(mapa, indice, nomes);</span>
-<span class="nc" id="L64">        indice = sugestoesEmailAlunoComDoisNomes(mapa, indice, nomes);</span>
-<span class="nc" id="L65">        indice = sugestoesEmailAlunoComTresNomes(mapa, indice, nomes);</span>
-<span class="nc" id="L66">    }</span>
+<span class="fc" id="L63">        indice = sugestoesEmailAlunoComUmNome(mapa, indice, nomes);</span>
+<span class="fc" id="L64">        indice = sugestoesEmailAlunoComDoisNomes(mapa, indice, nomes);</span>
+<span class="fc" id="L65">        indice = sugestoesEmailAlunoComTresNomes(mapa, indice, nomes);</span>
+<span class="fc" id="L66">    }</span>
     
     private int sugestoesEmailAlunoComTresNomes(Map&lt;Integer, String&gt; mapa, int indice, String[] nomes) throws IOException{
-<span class="nc" id="L69">        verificaSeASugestaoJaExiste(mapa, indice, criarEmailComPrimeiraLetraSobrenome(nomes));</span>
-<span class="nc" id="L70">        mapa.put(++indice, criarEmailComPrimeiraLetraSobrenome(nomes));</span>
+<span class="fc" id="L69">        verificaSeASugestaoJaExiste(mapa, indice, criarEmailComPrimeiraLetraSobrenome(nomes));</span>
+<span class="fc" id="L70">        mapa.put(++indice, criarEmailComPrimeiraLetraSobrenome(nomes));</span>
         
-<span class="nc" id="L72">        verificaSeASugestaoJaExiste(mapa, indice, primeiraLetraMaisSobrenomes(nomes));</span>
-<span class="nc" id="L73">        mapa.put(++indice, primeiraLetraMaisSobrenomes(nomes));</span>
+<span class="fc" id="L72">        verificaSeASugestaoJaExiste(mapa, indice, primeiraLetraMaisSobrenomes(nomes));</span>
+<span class="fc" id="L73">        mapa.put(++indice, primeiraLetraMaisSobrenomes(nomes));</span>
         
-<span class="nc" id="L75">        verificaSeASugestaoJaExiste(mapa, indice, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));</span>
-<span class="nc" id="L76">        mapa.put(++indice, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));</span>
-<span class="nc" id="L77">        return indice;</span>
+<span class="fc" id="L75">        verificaSeASugestaoJaExiste(mapa, indice, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));</span>
+<span class="fc" id="L76">        mapa.put(++indice, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));</span>
+<span class="fc" id="L77">        return indice;</span>
     }
     
     private int sugestoesEmailAlunoComDoisNomes(Map&lt;Integer, String&gt; mapa, int indice, String[] nomes){
-<span class="nc" id="L81">        mapa.put(++indice, criarEmailSeparadoPorUnderscore(nomes));</span>
-<span class="nc" id="L82">        mapa.put(++indice, primeiroNomeMaisSegundoNome(nomes));</span>
-<span class="nc" id="L83">        mapa.put(++indice, primeiraLetraMaisSobrenome(nomes));  </span>
-<span class="nc" id="L84">        return indice;</span>
+<span class="fc" id="L81">        mapa.put(++indice, criarEmailSeparadoPorUnderscore(nomes));</span>
+<span class="fc" id="L82">        mapa.put(++indice, primeiroNomeMaisSegundoNome(nomes));</span>
+<span class="fc" id="L83">        mapa.put(++indice, primeiraLetraMaisSobrenome(nomes));  </span>
+<span class="fc" id="L84">        return indice;</span>
     }
     
     private int sugestoesEmailAlunoComUmNome(Map&lt;Integer, String&gt; mapa, int indice, String[] nomes){
-<span class="nc" id="L88">        mapa.put(++indice, primeiroNomeSomente(nomes));</span>
-<span class="nc" id="L89">        return indice;</span>
+<span class="fc" id="L88">        mapa.put(++indice, primeiroNomeSomente(nomes));</span>
+<span class="fc" id="L89">        return indice;</span>
     }
     
     // Métodos de sugestão de nome de email
 
     private String criarEmailSeparadoPorUnderscore(String[] arrayNome) {
-<span class="nc" id="L95">        String email = arrayNome[0] + &quot;_&quot; + arrayNome[1] + DOMAIN_EMAIL;</span>
-<span class="nc" id="L96">        return email.toLowerCase();</span>
+<span class="fc" id="L95">        String email = arrayNome[0] + &quot;_&quot; + arrayNome[1] + DOMAIN_EMAIL;</span>
+<span class="fc" id="L96">        return email.toLowerCase();</span>
     }
 
     private String criarEmailComPrimeiraLetraSobrenome(String[] arrayNome) {
-<span class="nc" id="L100">        String email = arrayNome[0] + arrayNome[1].charAt(0) + arrayNome[2].charAt(0) + DOMAIN_EMAIL;</span>
-<span class="nc" id="L101">        return email.toLowerCase();</span>
+<span class="fc" id="L100">        String email = arrayNome[0] + arrayNome[1].charAt(0) + arrayNome[2].charAt(0) + DOMAIN_EMAIL;</span>
+<span class="fc" id="L101">        return email.toLowerCase();</span>
     }
 
     private String primeiroNomeMaisSegundoNome(String[] arrayNome) {
-<span class="nc" id="L105">        String email = arrayNome[0] + arrayNome[1] + DOMAIN_EMAIL;</span>
-<span class="nc" id="L106">        return email.toLowerCase();</span>
+<span class="fc" id="L105">        String email = arrayNome[0] + arrayNome[1] + DOMAIN_EMAIL;</span>
+<span class="fc" id="L106">        return email.toLowerCase();</span>
     }
 
     private String primeiraLetraMaisSobrenome(String[] arrayNome) {
-<span class="nc" id="L110">        String email = arrayNome[0].charAt(0) + arrayNome[1] + DOMAIN_EMAIL;</span>
-<span class="nc" id="L111">        return email.toLowerCase();</span>
+<span class="fc" id="L110">        String email = arrayNome[0].charAt(0) + arrayNome[1] + DOMAIN_EMAIL;</span>
+<span class="fc" id="L111">        return email.toLowerCase();</span>
     }
 
     private String primeiraLetraMaisSobrenomes(String[] arrayNome) {
-<span class="nc" id="L115">        String email = arrayNome[0].charAt(0) + arrayNome[1] + arrayNome[2] + DOMAIN_EMAIL;</span>
-<span class="nc" id="L116">        return email.toLowerCase();</span>
+<span class="fc" id="L115">        String email = arrayNome[0].charAt(0) + arrayNome[1] + arrayNome[2] + DOMAIN_EMAIL;</span>
+<span class="fc" id="L116">        return email.toLowerCase();</span>
     }
 
     private String primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(String[] arrayNome) {
-<span class="nc" id="L120">        return new StringBuilder()</span>
-<span class="nc" id="L121">                .append(arrayNome[0].charAt(0))</span>
-<span class="nc" id="L122">                .append(arrayNome[1].charAt(0))</span>
-<span class="nc" id="L123">                .append(arrayNome[1].charAt(0))</span>
-<span class="nc" id="L124">                .append(DOMAIN_EMAIL)</span>
-<span class="nc" id="L125">                .toString().toLowerCase();</span>
+<span class="fc" id="L120">        return new StringBuilder()</span>
+<span class="fc" id="L121">                .append(arrayNome[0].charAt(0))</span>
+<span class="fc" id="L122">                .append(arrayNome[1].charAt(0))</span>
+<span class="fc" id="L123">                .append(arrayNome[1].charAt(0))</span>
+<span class="fc" id="L124">                .append(DOMAIN_EMAIL)</span>
+<span class="fc" id="L125">                .toString().toLowerCase();</span>
     }
     
     private String primeiroNomeSomente(String[] arrayNome) {
-<span class="nc" id="L129">        return (arrayNome[0] + DOMAIN_EMAIL).toLowerCase();</span>
+<span class="fc" id="L129">        return (arrayNome[0] + DOMAIN_EMAIL).toLowerCase();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

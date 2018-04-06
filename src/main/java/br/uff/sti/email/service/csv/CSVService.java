@@ -85,9 +85,8 @@ public class CSVService {
     }
 
     public void salvarMudancaNoCSV(Aluno aluno) {
-        try {
-            FileWriter fileWriter = new FileWriter("." + File.separator + "novo.csv");
-            CSVPrinter printer = new CSVPrinter(fileWriter, getCSVFormat().withQuote(null));
+        try(FileWriter fileWriter = new FileWriter("." + File.separator + "novo.csv");
+            CSVPrinter printer = new CSVPrinter(fileWriter, getCSVFormat().withQuote(null));){            
 
             printarCabecalho(printer);
 
@@ -99,10 +98,8 @@ public class CSVService {
             }
             alteraNomeDoArquivo();
             apagarArquivoAntigo();
-            printer.flush();
-            printer.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
     

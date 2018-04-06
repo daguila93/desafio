@@ -39,83 +39,80 @@ public class CSVService {
     private Reader leitorArquivo;
     private CSVParser parserArquivo;
     private List&lt;Aluno&gt; registros;
-<span class="nc" id="L42">    private final String CAMINHODOARQUIVOANTIGO = &quot;.&quot; + File.separator +&quot;ArquivoQueVaiSerApagado.csv&quot;;</span>
+<span class="fc" id="L42">    private final String CAMINHODOARQUIVOANTIGO = &quot;.&quot; + File.separator +&quot;ArquivoQueVaiSerApagado.csv&quot;;</span>
 
     public CSVService() {
-<span class="nc" id="L45">        this(&quot;.&quot; + File.separator + &quot;Arquivo.csv&quot;);</span>
-<span class="nc" id="L46">    }</span>
+<span class="fc" id="L45">        this(&quot;.&quot; + File.separator + &quot;Arquivo.csv&quot;);</span>
+<span class="fc" id="L46">    }</span>
 
     public CSVService(String nomeDoArquivo) {
-<span class="nc" id="L49">        this(nomeDoArquivo, LoggerFactory.getLogger(CSVService.class));</span>
-<span class="nc" id="L50">    }</span>
+<span class="fc" id="L49">        this(nomeDoArquivo, LoggerFactory.getLogger(CSVService.class));</span>
+<span class="fc" id="L50">    }</span>
 
-<span class="nc" id="L52">    public CSVService(String nomeDoArquivo, Logger log) {</span>
-<span class="nc" id="L53">        this.nomeDoArquivo = nomeDoArquivo;</span>
-<span class="nc" id="L54">        this.LOGGER = log;</span>
-<span class="nc" id="L55">    }</span>
+<span class="fc" id="L52">    public CSVService(String nomeDoArquivo, Logger log) {</span>
+<span class="fc" id="L53">        this.nomeDoArquivo = nomeDoArquivo;</span>
+<span class="fc" id="L54">        this.LOGGER = log;</span>
+<span class="fc" id="L55">    }</span>
 
     public CSVService inicializarServico() throws FileNotFoundException, IOException {
-<span class="nc" id="L58">        inicializarLeitorArquivo().carregarArquivo();</span>
-<span class="nc" id="L59">        return this;</span>
+<span class="fc" id="L58">        inicializarLeitorArquivo().carregarArquivo();</span>
+<span class="fc" id="L59">        return this;</span>
     }
 
     private CSVService inicializarLeitorArquivo() throws FileNotFoundException {
-<span class="nc" id="L63">        this.leitorArquivo = new FileReader(nomeDoArquivo);</span>
-<span class="nc" id="L64">        return this;</span>
+<span class="fc" id="L63">        this.leitorArquivo = new FileReader(nomeDoArquivo);</span>
+<span class="fc" id="L64">        return this;</span>
     }
 
     private CSVService carregarArquivo() throws IOException {
-<span class="nc" id="L68">        this.parserArquivo = getCSVFormat().parse(leitorArquivo);</span>
-<span class="nc" id="L69">        return this;</span>
+<span class="fc" id="L68">        this.parserArquivo = getCSVFormat().parse(leitorArquivo);</span>
+<span class="fc" id="L69">        return this;</span>
     }
 
     public List&lt;Aluno&gt; lerRegistros() throws IOException {
-<span class="nc" id="L73">        this.registros = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L74" title="All 2 branches missed.">        for (CSVRecord registro : parserArquivo.getRecords()) {</span>
-<span class="nc" id="L75">            Aluno alunoNovo = new Aluno();</span>
-<span class="nc" id="L76">            alunoNovo.setMatricula(Long.parseLong(registro.get(&quot;matricula&quot;)));</span>
-<span class="nc" id="L77">            alunoNovo.setNome(registro.get(&quot;nome&quot;));</span>
-<span class="nc" id="L78">            alunoNovo.setEmail(registro.get(&quot;email&quot;));</span>
-<span class="nc" id="L79">            alunoNovo.setTelefone(registro.get(&quot;telefone&quot;));</span>
-<span class="nc" id="L80">            alunoNovo.setStatus(registro.get(&quot;status&quot;));</span>
-<span class="nc" id="L81">            alunoNovo.setUffMail(registro.get(&quot;uffmail&quot;));</span>
-<span class="nc" id="L82">            registros.add(alunoNovo);</span>
-<span class="nc" id="L83">        }</span>
-<span class="nc" id="L84">        return this.registros;</span>
+<span class="fc" id="L73">        this.registros = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (CSVRecord registro : parserArquivo.getRecords()) {</span>
+<span class="fc" id="L75">            Aluno alunoNovo = new Aluno();</span>
+<span class="fc" id="L76">            alunoNovo.setMatricula(Long.parseLong(registro.get(&quot;matricula&quot;)));</span>
+<span class="fc" id="L77">            alunoNovo.setNome(registro.get(&quot;nome&quot;));</span>
+<span class="fc" id="L78">            alunoNovo.setEmail(registro.get(&quot;email&quot;));</span>
+<span class="fc" id="L79">            alunoNovo.setTelefone(registro.get(&quot;telefone&quot;));</span>
+<span class="fc" id="L80">            alunoNovo.setStatus(registro.get(&quot;status&quot;));</span>
+<span class="fc" id="L81">            alunoNovo.setUffMail(registro.get(&quot;uffmail&quot;));</span>
+<span class="fc" id="L82">            registros.add(alunoNovo);</span>
+<span class="fc" id="L83">        }</span>
+<span class="fc" id="L84">        return this.registros;</span>
     }
 
     public void salvarMudancaNoCSV(Aluno aluno) {
-        try {
-<span class="nc" id="L89">            FileWriter fileWriter = new FileWriter(&quot;.&quot; + File.separator + &quot;novo.csv&quot;);</span>
-<span class="nc" id="L90">            CSVPrinter printer = new CSVPrinter(fileWriter, getCSVFormat().withQuote(null));</span>
+<span class="fc" id="L88">        try(FileWriter fileWriter = new FileWriter(&quot;.&quot; + File.separator + &quot;novo.csv&quot;);</span>
+<span class="fc" id="L89">            CSVPrinter printer = new CSVPrinter(fileWriter, getCSVFormat().withQuote(null));){            </span>
 
-<span class="nc" id="L92">            printarCabecalho(printer);</span>
+<span class="fc" id="L91">            printarCabecalho(printer);</span>
 
-<span class="nc bnc" id="L94" title="All 2 branches missed.">            for (Aluno registro : registros) {</span>
-<span class="nc bnc" id="L95" title="All 2 branches missed.">                if (registro.getMatricula().equals(aluno.getMatricula())) {</span>
-<span class="nc" id="L96">                    registro = aluno;</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">            for (Aluno registro : registros) {</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">                if (registro.getMatricula().equals(aluno.getMatricula())) {</span>
+<span class="fc" id="L95">                    registro = aluno;</span>
                 }
-<span class="nc" id="L98">                printer.printRecord(registro);</span>
-<span class="nc" id="L99">            }</span>
-<span class="nc" id="L100">            alteraNomeDoArquivo();</span>
-<span class="nc" id="L101">            apagarArquivoAntigo();</span>
-<span class="nc" id="L102">            printer.flush();</span>
-<span class="nc" id="L103">            printer.close();</span>
-<span class="nc" id="L104">        } catch (Exception e) {</span>
-<span class="nc" id="L105">            e.printStackTrace();</span>
-<span class="nc" id="L106">        }</span>
-<span class="nc" id="L107">    }</span>
+<span class="fc" id="L97">                printer.printRecord(registro);</span>
+<span class="fc" id="L98">            }</span>
+<span class="fc" id="L99">            alteraNomeDoArquivo();</span>
+<span class="fc" id="L100">            apagarArquivoAntigo();</span>
+<span class="nc" id="L101">        } catch (Exception e) {</span>
+<span class="nc" id="L102">            LOGGER.error(e.getMessage());</span>
+<span class="fc" id="L103">        }</span>
+<span class="fc" id="L104">    }</span>
     
     public void alteraNomeDoArquivo() {
-<span class="nc" id="L110">        new File(nomeDoArquivo).renameTo(new File(&quot;ArquivoQueVaiSerApagado.csv&quot;));</span>
-<span class="nc" id="L111">        new File(&quot;novo.csv&quot;).renameTo(new File(nomeDoArquivo));</span>
-<span class="nc" id="L112">    }</span>
+<span class="fc" id="L107">        new File(nomeDoArquivo).renameTo(new File(&quot;ArquivoQueVaiSerApagado.csv&quot;));</span>
+<span class="fc" id="L108">        new File(&quot;novo.csv&quot;).renameTo(new File(nomeDoArquivo));</span>
+<span class="fc" id="L109">    }</span>
 
     public void apagarArquivoAntigo(){
-<span class="nc" id="L115">        File f = new File(CAMINHODOARQUIVOANTIGO);</span>
-<span class="nc" id="L116">         f.delete();</span>
+<span class="fc" id="L112">        File f = new File(CAMINHODOARQUIVOANTIGO);</span>
+<span class="fc" id="L113">         f.delete();</span>
             
-<span class="nc" id="L118">    }</span>
+<span class="fc" id="L115">    }</span>
     
     /**
      * Retorna os registros dos alunos que estão no csv.
@@ -124,33 +121,33 @@ public class CSVService {
      * @throws IOException
      */
     public List&lt;Aluno&gt; getRegistros() throws IOException {
-<span class="nc bnc" id="L127" title="All 2 branches missed.">        return this.registros != null</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        return this.registros != null</span>
                 ? this.registros
-<span class="nc" id="L129">                : lerRegistros();</span>
+<span class="fc" id="L126">                : lerRegistros();</span>
     }
 
     private CSVFormat getCSVFormat() {
-<span class="nc" id="L133">        return CSVFormat.EXCEL.withFirstRecordAsHeader().withHeader(HEADER);</span>
+<span class="fc" id="L130">        return CSVFormat.EXCEL.withFirstRecordAsHeader().withHeader(HEADER);</span>
     }
 
     public void setRegistros(List&lt;Aluno&gt; registros) {
-<span class="nc" id="L137">        this.registros = registros;</span>
-<span class="nc" id="L138">    }</span>
+<span class="fc" id="L134">        this.registros = registros;</span>
+<span class="fc" id="L135">    }</span>
 
     public String getNomeDoArquivo() {
-<span class="nc" id="L141">        return nomeDoArquivo;</span>
+<span class="fc" id="L138">        return nomeDoArquivo;</span>
     }
 
     public Logger getLOGGER() {
-<span class="nc" id="L145">        return LOGGER;</span>
+<span class="fc" id="L142">        return LOGGER;</span>
     }
 
     private void printarCabecalho(CSVPrinter printer) throws IOException {
         //Printar o Cabeçalho
-<span class="nc bnc" id="L150" title="All 2 branches missed.">        for (String HEADER1 : HEADER) {</span>
-<span class="nc" id="L151">            printer.print(HEADER1);</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        for (String HEADER1 : HEADER) {</span>
+<span class="fc" id="L148">            printer.print(HEADER1);</span>
         }        
-<span class="nc" id="L153">        printer.println();</span>
-<span class="nc" id="L154">    }</span>
+<span class="fc" id="L150">        printer.println();</span>
+<span class="fc" id="L151">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

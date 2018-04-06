@@ -29,7 +29,6 @@ import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -100,10 +99,8 @@ public class AlunoServiceTest {
     
     @Test    
     public void testAtualizarUffMail() throws IOException{
-        CSVService cSVService = new CSVService("./src/test/Test.csv");
         Aluno aluno = alunoService.getMap().get(1180000001L);
         alunoService.atualizarUffMail(aluno, "edil.rocha@id.uff.br");
-        cSVService.salvarMudancaNoCSV(aluno);
         assertThat(aluno.getUffMail(), is(equalTo("edil.rocha@id.uff.br")));
     }
 

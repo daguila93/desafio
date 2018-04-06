@@ -28,12 +28,12 @@ public class AlunoService {
     private CSVService CSVService;
 
     public AlunoService() {
-<span class="nc" id="L31">        this(new CSVService());</span>
-<span class="nc" id="L32">    }</span>
+<span class="fc" id="L31">        this(new CSVService());</span>
+<span class="fc" id="L32">    }</span>
 
     public AlunoService(CSVService CSVService) {
-<span class="nc" id="L35">        this(CSVService, LoggerFactory.getLogger(AlunoService.class));</span>
-<span class="nc" id="L36">    } </span>
+<span class="fc" id="L35">        this(CSVService, LoggerFactory.getLogger(AlunoService.class));</span>
+<span class="fc" id="L36">    } </span>
     
 <span class="fc" id="L38">    public AlunoService(CSVService CSVService, Logger logger) {</span>
 <span class="fc" id="L39">        this.CSVService = CSVService;</span>
@@ -50,36 +50,34 @@ public class AlunoService {
 <span class="fc" id="L50">            }</span>
 <span class="fc" id="L51">        }catch (FileNotFoundException fnfex) {</span>
 <span class="fc" id="L52">            LOGGER.error(&quot;Erro ao encontrar o arquivo de alunos.&quot;);</span>
-<span class="nc" id="L53">            System.exit(0);</span>
-<span class="nc" id="L54">        }catch (IOException ex) {</span>
-<span class="nc" id="L55">            LOGGER.error(&quot;Erro ao inicializar mapa de alunos.&quot;);</span>
-<span class="nc" id="L56">            System.exit(0);</span>
-<span class="pc" id="L57">        }</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L53">        }catch (IOException ex) {</span>
+<span class="fc" id="L54">            LOGGER.error(&quot;Erro ao inicializar mapa de alunos.&quot;);</span>
+<span class="fc" id="L55">        }</span>
+<span class="fc" id="L56">    }</span>
     
     public void atualizarUffMail(Aluno aluno, String uffMail) {
-<span class="nc" id="L61">        aluno.setUffMail(uffMail);</span>
-<span class="nc" id="L62">        CSVService.salvarMudancaNoCSV(aluno);</span>
-<span class="nc" id="L63">    }</span>
+<span class="fc" id="L59">        aluno.setUffMail(uffMail);</span>
+<span class="fc" id="L60">        CSVService.salvarMudancaNoCSV(aluno);</span>
+<span class="fc" id="L61">    }</span>
 
     public Optional&lt;Aluno&gt; getAluno(Long matricula) {
-<span class="nc" id="L66">        return Optional.ofNullable(map.get(matricula));</span>
+<span class="fc" id="L64">        return Optional.ofNullable(map.get(matricula));</span>
     }
 
     public Map&lt;Long, Aluno&gt; getMap() {
-<span class="nc" id="L70">        return map;</span>
+<span class="fc" id="L68">        return map;</span>
     }
 
     public Logger getLOGGER() {
-<span class="nc" id="L74">        return LOGGER;</span>
+<span class="fc" id="L72">        return LOGGER;</span>
     }
 
     public void setLOGGER(Logger LOGGER) {
-<span class="nc" id="L78">        this.LOGGER = LOGGER;</span>
-<span class="nc" id="L79">    }    </span>
+<span class="fc" id="L76">        this.LOGGER = LOGGER;</span>
+<span class="fc" id="L77">    }    </span>
 
     public CSVService getCSVService() {
-<span class="nc" id="L82">        return CSVService;</span>
+<span class="fc" id="L80">        return CSVService;</span>
     }  
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>

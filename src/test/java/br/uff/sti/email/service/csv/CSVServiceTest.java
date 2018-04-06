@@ -16,6 +16,7 @@ import org.junit.After;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.BDDMockito.given;
 
 /**
  *
@@ -65,23 +66,15 @@ public class CSVServiceTest {
     }
 
     @Test
-    public void testInicializarServico() throws Exception {
+    public void testGetLOGGER() throws IOException {
+        //given(service.salvarMudancaNoCSV(aluno)).willThrow(this);
     }
-
-    @Test
-    public void testGetRegistros() throws Exception {
-    }
-
-    @Test
-    public void testSetRegistros() {
-    }
-
-    @Test
-    public void testGetNomeDoArquivo() {
-    }
-
-    @Test
-    public void testGetLOGGER() {
-    }
+    
+//    @Test
+//    public void testCatchIOException() throws Exception {
+//        given(arquivoService.getRegistros()).willThrow(new IOException());        
+//        alunoService = new AlunoService(arquivoService, logger);
+//        verify(alunoService.getLOGGER(), times(1)).error(anyString());
+//    }
     
 }
