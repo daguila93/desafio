@@ -94,7 +94,7 @@ public class AlunoServiceTest {
         assertThat(aluno.getUffMail(), is(""));
         assertThat(aluno.getStatus(), is(equalTo("Ativo")));
         assertThat(aluno.getTelefone(), is(equalTo("99999-9999")));
-        assertThat(alunoService.getMap().size(), is(1));
+        assertThat(alunoService.getMap().size(), is(2));
     }
     
     @Test    

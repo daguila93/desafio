@@ -11,6 +11,7 @@ import br.uff.sti.email.service.csv.CSVService;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  *
@@ -19,15 +20,23 @@ import java.util.Map;
 public class SugestaoEmailService {
 
     private final CSVService arquivoService;
+    
+    private Integer indiceMapa;
 
     public SugestaoEmailService() throws IOException{
         arquivoService = new CSVService().inicializarServico();
+        indiceMapa = 0;
     }    
     
     //Mapeando a criação de E-mails e métodos de cada um dos possíveis e-mails.
     public Map<Integer, String> criarMapaDeEmail(String nome) throws IOException {
         String[] nomes = limparCaracteresEspeciaisEmNome(nome).split(" ");
+        indiceMapa = 0;
         return mapearSugestoesDeEmail(nomes);
+    }
+    
+    private Integer incrementarIndice(){
+        return this.indiceMapa+=1;
     }
 
     private String limparCaracteresEspeciaisEmNome(String nome) {
@@ -36,87 +45,96 @@ public class SugestaoEmailService {
 
     private Map<Integer, String> mapearSugestoesDeEmail(String[] nomes) throws IOException {
         Map<Integer, String> mapa = new HashMap<>();
-        int indice = 0;
+        incrementarIndice();
         switch (nomes.length) {
-            case 3: indice = sugestoesEmailAlunoComTresNomes(mapa, indice, nomes);
-            case 2: indice = sugestoesEmailAlunoComDoisNomes(mapa, indice, nomes);
-            case 1: indice = sugestoesEmailAlunoComUmNome(mapa, indice, nomes); break;
-            default: sugestoesEmailAlunoComMaisTresNomes(mapa, indice, nomes);
+            case 3: sugestoesEmailAlunoComTresNomes(mapa, nomes);
+            case 2: sugestoesEmailAlunoComDoisNomes(mapa, nomes);
+            case 1: sugestoesEmailAlunoComUmNome(mapa, nomes); break;
+            default: sugestoesEmailAlunoComMaisTresNomes(mapa, nomes);
         }
         return mapa;
     }
     
-    private int verificaSeASugestaoJaExiste(Map <Integer, String> mapa, int indice, String sugestaoDeEmail) throws IOException{
+    private Optional<Integer> verificaSeASugestaoJaExiste(Map <Integer, String> mapa, String sugestaoDeEmail) throws IOException{
         
         for(Aluno aluno : arquivoService.getRegistros()){
             if(aluno.getUffMail().equals(sugestaoDeEmail)){
-                return indice;
+                return Optional.empty();
             }
         }
-        mapa.put(++indice, sugestaoDeEmail);
-        return indice;
+        mapa.put(indiceMapa, sugestaoDeEmail);
+        return Optional.of(indiceMapa);
     }
     
     // Métodos agregadores de sugestão de nome de email
     
-     private void sugestoesEmailAlunoComMaisTresNomes(Map<Integer, String> mapa, int indice, String[] nomes) throws IOException {
-        indice = sugestoesEmailAlunoComUmNome(mapa, indice, nomes);
-        indice = sugestoesEmailAlunoComDoisNomes(mapa, indice, nomes);
-        indice = sugestoesEmailAlunoComTresNomes(mapa, indice, nomes);
+     private void sugestoesEmailAlunoComMaisTresNomes(Map<Integer, String> mapa, String[] nomes) throws IOException {
+        sugestoesEmailAlunoComUmNome(mapa, nomes);
+        sugestoesEmailAlunoComDoisNomes(mapa, nomes);
+        sugestoesEmailAlunoComTresNomes(mapa, nomes);
     }
     
-    private int sugestoesEmailAlunoComTresNomes(Map<Integer, String> mapa, int indice, String[] nomes) throws IOException{
-        verificaSeASugestaoJaExiste(mapa, indice, criarEmailComPrimeiraLetraSobrenome(nomes));
-        mapa.put(++indice, criarEmailComPrimeiraLetraSobrenome(nomes));
+    private void sugestoesEmailAlunoComTresNomes(Map<Integer, String> mapa, String[] nomes) throws IOException{
         
-        verificaSeASugestaoJaExiste(mapa, indice, primeiraLetraMaisSobrenomes(nomes));
-        mapa.put(++indice, primeiraLetraMaisSobrenomes(nomes));
+        Optional<Integer> ver = verificaSeASugestaoJaExiste(mapa, criarEmailComPrimeiraLetraSobrenome(nomes));
+        if(ver.isPresent()){
+            mapa.put(ver.get(), criarEmailComPrimeiraLetraSobrenome(nomes));
+        }        
         
-        verificaSeASugestaoJaExiste(mapa, indice, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));
-        mapa.put(++indice, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));
-        return indice;
+        verificaSeASugestaoJaExiste(mapa, primeiraLetraMaisSobrenomes(nomes));
+        mapa.put(indiceMapa, primeiraLetraMaisSobrenomes(nomes));
+        
+        verificaSeASugestaoJaExiste(mapa, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));
+        mapa.put(indiceMapa, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));
     }
     
-    private int sugestoesEmailAlunoComDoisNomes(Map<Integer, String> mapa, int indice, String[] nomes){
-        mapa.put(++indice, criarEmailSeparadoPorUnderscore(nomes));
-        mapa.put(++indice, primeiroNomeMaisSegundoNome(nomes));
-        mapa.put(++indice, primeiraLetraMaisSobrenome(nomes));  
-        return indice;
+    private void sugestoesEmailAlunoComDoisNomes(Map<Integer, String> mapa, String[] nomes){
+        mapa.put(indiceMapa, criarEmailSeparadoPorUnderscore(nomes));
+        mapa.put(indiceMapa, primeiroNomeMaisSegundoNome(nomes));
+        mapa.put(indiceMapa, primeiraLetraMaisSobrenome(nomes));
+        incrementarIndice();
     }
     
-    private int sugestoesEmailAlunoComUmNome(Map<Integer, String> mapa, int indice, String[] nomes){
-        mapa.put(++indice, primeiroNomeSomente(nomes));
-        return indice;
+    private void sugestoesEmailAlunoComUmNome(Map<Integer, String> mapa, String[] nomes){
+        mapa.put(indiceMapa, primeiroNomeSomente(nomes));
+        incrementarIndice();
     }
     
     // Métodos de sugestão de nome de email
 
     private String criarEmailSeparadoPorUnderscore(String[] arrayNome) {
         String email = arrayNome[0] + "_" + arrayNome[1] + DOMAIN_EMAIL;
+        incrementarIndice();
         return email.toLowerCase();
+        
     }
 
     private String criarEmailComPrimeiraLetraSobrenome(String[] arrayNome) {
         String email = arrayNome[0] + arrayNome[1].charAt(0) + arrayNome[2].charAt(0) + DOMAIN_EMAIL;
+        incrementarIndice();
         return email.toLowerCase();
     }
 
     private String primeiroNomeMaisSegundoNome(String[] arrayNome) {
         String email = arrayNome[0] + arrayNome[1] + DOMAIN_EMAIL;
+        incrementarIndice();
         return email.toLowerCase();
     }
 
     private String primeiraLetraMaisSobrenome(String[] arrayNome) {
         String email = arrayNome[0].charAt(0) + arrayNome[1] + DOMAIN_EMAIL;
+        incrementarIndice();
         return email.toLowerCase();
     }
 
     private String primeiraLetraMaisSobrenomes(String[] arrayNome) {
         String email = arrayNome[0].charAt(0) + arrayNome[1] + arrayNome[2] + DOMAIN_EMAIL;
+        incrementarIndice();
         return email.toLowerCase();
     }
 
     private String primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(String[] arrayNome) {
+        incrementarIndice();
         return new StringBuilder()
                 .append(arrayNome[0].charAt(0))
                 .append(arrayNome[1].charAt(0))
@@ -126,6 +144,7 @@ public class SugestaoEmailService {
     }
     
     private String primeiroNomeSomente(String[] arrayNome) {
+        incrementarIndice();
         return (arrayNome[0] + DOMAIN_EMAIL).toLowerCase();
     }
 }

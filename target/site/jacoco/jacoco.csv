@@ -1,6 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-DesafioEmail,br.uff.sti.email.service.csv,CSVService,6,297,1,9,2,57,1,21,0,17
-DesafioEmail,br.uff.sti.email.modelo,Aluno,0,93,0,2,0,29,0,17,0,16
-DesafioEmail,br.uff.sti.email.service,SugestaoEmailService,2,344,1,7,1,53,1,20,0,16
-DesafioEmail,br.uff.sti.email.service,AlunoService,0,92,0,2,0,29,0,11,0,10
-DesafioEmail,br.uff.sti.email,Main,129,45,7,5,31,13,8,6,4,4

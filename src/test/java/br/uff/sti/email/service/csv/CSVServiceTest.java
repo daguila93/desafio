@@ -40,7 +40,7 @@ public class CSVServiceTest {
     public void testLerRegistros() throws Exception {
         List<Aluno> registros = service.lerRegistros();
         assertThat(registros, is(notNullValue()));
-        assertThat(registros, hasSize(1));
+        assertThat(registros, hasSize(2));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class CSVServiceTest {
         service.setRegistros(null);
         List<Aluno> registros = service.getRegistros();
         assertThat(registros, is(notNullValue()));
-        assertThat(registros, hasSize(1));
+        assertThat(registros, hasSize(2));
     }
 
     @Test
