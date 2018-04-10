@@ -8,6 +8,7 @@ package br.uff.sti.email.service;
 import static br.uff.sti.email.constantes.Constantes.DOMAIN_EMAIL;
 import br.uff.sti.email.modelo.Aluno;
 import br.uff.sti.email.service.csv.CSVService;
+import com.sun.javafx.collections.MapAdapterChange;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +46,6 @@ public class SugestaoEmailService {
 
     private Map<Integer, String> mapearSugestoesDeEmail(String[] nomes) throws IOException {
         Map<Integer, String> mapa = new HashMap<>();
-        incrementarIndice();
         switch (nomes.length) {
             case 3: sugestoesEmailAlunoComTresNomes(mapa, nomes);
             case 2: sugestoesEmailAlunoComDoisNomes(mapa, nomes);
@@ -55,86 +55,73 @@ public class SugestaoEmailService {
         return mapa;
     }
     
-    private Optional<Integer> verificaSeASugestaoJaExiste(Map <Integer, String> mapa, String sugestaoDeEmail) throws IOException{
-        
+    private Boolean isValidoParaSugestao(Map <Integer, String> mapa, String sugestaoDeEmail) throws IOException{
         for(Aluno aluno : arquivoService.getRegistros()){
             if(aluno.getUffMail().equals(sugestaoDeEmail)){
-                return Optional.empty();
+                return Boolean.FALSE;
             }
         }
-        mapa.put(indiceMapa, sugestaoDeEmail);
-        return Optional.of(indiceMapa);
+        return Boolean.TRUE;
     }
-    
+   
     // Métodos agregadores de sugestão de nome de email
-    
-     private void sugestoesEmailAlunoComMaisTresNomes(Map<Integer, String> mapa, String[] nomes) throws IOException {
-        sugestoesEmailAlunoComUmNome(mapa, nomes);
-        sugestoesEmailAlunoComDoisNomes(mapa, nomes);
-        sugestoesEmailAlunoComTresNomes(mapa, nomes);
+    private void sugestoesEmailAlunoComMaisTresNomes(Map<Integer, String> mapa, String[] nomes) throws IOException {        
+            sugestoesEmailAlunoComUmNome(mapa, nomes);
+            sugestoesEmailAlunoComDoisNomes(mapa, nomes);
+            sugestoesEmailAlunoComTresNomes(mapa, nomes);
+        
+    }
+
+    private void sugestoesEmailAlunoComTresNomes(Map<Integer, String> mapa, String[] nomes) throws IOException {
+        adicionaSugestaoValidaNoMapa(mapa, criarEmailComPrimeiraLetraSobrenome(nomes));        
+        adicionaSugestaoValidaNoMapa(mapa, primeiraLetraMaisSobrenomes(nomes));        
+        adicionaSugestaoValidaNoMapa(mapa, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));
     }
     
-    private void sugestoesEmailAlunoComTresNomes(Map<Integer, String> mapa, String[] nomes) throws IOException{
-        
-        Optional<Integer> ver = verificaSeASugestaoJaExiste(mapa, criarEmailComPrimeiraLetraSobrenome(nomes));
-        if(ver.isPresent()){
-            mapa.put(ver.get(), criarEmailComPrimeiraLetraSobrenome(nomes));
-        }        
-        
-        verificaSeASugestaoJaExiste(mapa, primeiraLetraMaisSobrenomes(nomes));
-        mapa.put(indiceMapa, primeiraLetraMaisSobrenomes(nomes));
-        
-        verificaSeASugestaoJaExiste(mapa, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));
-        mapa.put(indiceMapa, primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(nomes));
+    private void sugestoesEmailAlunoComDoisNomes(Map<Integer, String> mapa, String[] nomes) throws IOException{
+        adicionaSugestaoValidaNoMapa(mapa, criarEmailSeparadoPorUnderscore(nomes));   
+        adicionaSugestaoValidaNoMapa(mapa, primeiroNomeMaisSegundoNome(nomes));
+        adicionaSugestaoValidaNoMapa(mapa, primeiraLetraMaisSobrenome(nomes));
     }
     
-    private void sugestoesEmailAlunoComDoisNomes(Map<Integer, String> mapa, String[] nomes){
-        mapa.put(indiceMapa, criarEmailSeparadoPorUnderscore(nomes));
-        mapa.put(indiceMapa, primeiroNomeMaisSegundoNome(nomes));
-        mapa.put(indiceMapa, primeiraLetraMaisSobrenome(nomes));
-        incrementarIndice();
+    private void sugestoesEmailAlunoComUmNome(Map<Integer, String> mapa, String[] nomes) throws IOException{
+        adicionaSugestaoValidaNoMapa(mapa, primeiroNomeSomente(nomes));
     }
     
-    private void sugestoesEmailAlunoComUmNome(Map<Integer, String> mapa, String[] nomes){
-        mapa.put(indiceMapa, primeiroNomeSomente(nomes));
-        incrementarIndice();
+    private void adicionaSugestaoValidaNoMapa(Map<Integer, String> mapa, String sugestao) throws IOException{
+        if(isValidoParaSugestao(mapa, sugestao)){
+            mapa.put(incrementarIndice(), sugestao);
+        }
     }
     
     // Métodos de sugestão de nome de email
 
     private String criarEmailSeparadoPorUnderscore(String[] arrayNome) {
         String email = arrayNome[0] + "_" + arrayNome[1] + DOMAIN_EMAIL;
-        incrementarIndice();
         return email.toLowerCase();
-        
     }
 
     private String criarEmailComPrimeiraLetraSobrenome(String[] arrayNome) {
         String email = arrayNome[0] + arrayNome[1].charAt(0) + arrayNome[2].charAt(0) + DOMAIN_EMAIL;
-        incrementarIndice();
         return email.toLowerCase();
     }
 
     private String primeiroNomeMaisSegundoNome(String[] arrayNome) {
         String email = arrayNome[0] + arrayNome[1] + DOMAIN_EMAIL;
-        incrementarIndice();
         return email.toLowerCase();
     }
 
     private String primeiraLetraMaisSobrenome(String[] arrayNome) {
         String email = arrayNome[0].charAt(0) + arrayNome[1] + DOMAIN_EMAIL;
-        incrementarIndice();
         return email.toLowerCase();
     }
 
     private String primeiraLetraMaisSobrenomes(String[] arrayNome) {
         String email = arrayNome[0].charAt(0) + arrayNome[1] + arrayNome[2] + DOMAIN_EMAIL;
-        incrementarIndice();
         return email.toLowerCase();
     }
 
     private String primeiraLetraDoNomeEPrimeiraLetraDoSobrenomeDobrada(String[] arrayNome) {
-        incrementarIndice();
         return new StringBuilder()
                 .append(arrayNome[0].charAt(0))
                 .append(arrayNome[1].charAt(0))
@@ -144,7 +131,6 @@ public class SugestaoEmailService {
     }
     
     private String primeiroNomeSomente(String[] arrayNome) {
-        incrementarIndice();
         return (arrayNome[0] + DOMAIN_EMAIL).toLowerCase();
     }
 }
