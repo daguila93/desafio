@@ -5,10 +5,13 @@
  */
 package br.uff.sti.email.service;
 
+import br.uff.sti.email.service.csv.CSVService;
 import java.io.IOException;
 import java.util.Map;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import org.hamcrest.Matchers;
+import static org.hamcrest.Matchers.hasSize;
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -24,7 +27,7 @@ public class SugestaoEmailServiceTest {
 
     @Before
     public void setUp() throws IOException {
-        service = new SugestaoEmailService();
+        service = new SugestaoEmailService(new CSVService("./src/test/Test.csv"));
     }
 
     @After
@@ -37,6 +40,7 @@ public class SugestaoEmailServiceTest {
         Map<Integer, String> sugestoes
                 = service.criarMapaDeEmail("Edila");
         assertThat(sugestoes.get(1), is(equalTo("edila@id.uff.br")));
+        assertThat(sugestoes.keySet(), hasSize(1));
     }
 
     @Test
@@ -47,6 +51,7 @@ public class SugestaoEmailServiceTest {
         assertThat(sugestoes.get(2), is(equalTo("alinemoraes@id.uff.br")));
         assertThat(sugestoes.get(3), is(equalTo("amoraes@id.uff.br")));
         assertThat(sugestoes.get(4), is(equalTo("aline@id.uff.br")));
+        assertThat(sugestoes.keySet(), hasSize(4));
     }
 
     @Test
@@ -55,11 +60,11 @@ public class SugestaoEmailServiceTest {
                 = service.criarMapaDeEmail("Edil D'Aguila Rocha");
         assertThat(sugestoes.get(1), is(equalTo("edildr@id.uff.br")));
         assertThat(sugestoes.get(2), is(equalTo("edaguilarocha@id.uff.br")));
-        assertThat(sugestoes.get(3), is(equalTo("edd@id.uff.br")));
-        assertThat(sugestoes.get(4), is(equalTo("edil_daguila@id.uff.br")));
-        assertThat(sugestoes.get(5), is(equalTo("edildaguila@id.uff.br")));
-        assertThat(sugestoes.get(6), is(equalTo("edaguila@id.uff.br")));
-        assertThat(sugestoes.get(7), is(equalTo("edil@id.uff.br")));
+        assertThat(sugestoes.get(3), is(equalTo("edil_daguila@id.uff.br")));
+        assertThat(sugestoes.get(4), is(equalTo("edildaguila@id.uff.br")));
+        assertThat(sugestoes.get(5), is(equalTo("edaguila@id.uff.br")));
+        assertThat(sugestoes.get(6), is(equalTo("edil@id.uff.br")));
+        assertThat(sugestoes.keySet(), hasSize(6));
     }
 
     @Test
@@ -73,6 +78,7 @@ public class SugestaoEmailServiceTest {
         assertThat(sugestoes.get(5), is(equalTo("guilhermeds@id.uff.br")));
         assertThat(sugestoes.get(6), is(equalTo("gdasilva@id.uff.br")));
         assertThat(sugestoes.get(7), is(equalTo("gdd@id.uff.br")));
+        assertThat(sugestoes.keySet(), hasSize(7));
     }
 
     @Test

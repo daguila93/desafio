@@ -8,11 +8,9 @@ package br.uff.sti.email.service;
 import static br.uff.sti.email.constantes.Constantes.DOMAIN_EMAIL;
 import br.uff.sti.email.modelo.Aluno;
 import br.uff.sti.email.service.csv.CSVService;
-import com.sun.javafx.collections.MapAdapterChange;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  *
@@ -23,11 +21,15 @@ public class SugestaoEmailService {
     private final CSVService arquivoService;
     
     private Integer indiceMapa;
-
+    
     public SugestaoEmailService() throws IOException{
-        arquivoService = new CSVService().inicializarServico();
+        this(new CSVService());
+    }
+    
+    public SugestaoEmailService(CSVService service) throws IOException{
+        arquivoService = service.inicializarServico();
         indiceMapa = 0;
-    }    
+    } 
     
     //Mapeando a criação de E-mails e métodos de cada um dos possíveis e-mails.
     public Map<Integer, String> criarMapaDeEmail(String nome) throws IOException {

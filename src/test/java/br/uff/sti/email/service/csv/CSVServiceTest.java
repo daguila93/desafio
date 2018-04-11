@@ -6,6 +6,7 @@
 package br.uff.sti.email.service.csv;
 
 import br.uff.sti.email.modelo.Aluno;
+import br.uff.sti.email.service.SugestaoEmailService;
 import java.io.IOException;
 import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
@@ -16,7 +17,9 @@ import org.junit.After;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.BDDMockito.given;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -25,6 +28,7 @@ import static org.mockito.BDDMockito.given;
 public class CSVServiceTest {
 
     private CSVService service;
+    private SugestaoEmailService sugestaoEmailService;
     
     @Before
     public void setUp() throws IOException {
@@ -64,17 +68,18 @@ public class CSVServiceTest {
         service.apagarArquivoAntigo();
         service.salvarMudancaNoCSV((Aluno) service.getRegistros().get(0));
     }
-
+    
     @Test
-    public void testGetLOGGER() throws IOException {
-        //given(service.salvarMudancaNoCSV(aluno)).willThrow(this);
+    public void testConstrutorSemParametro() throws IOException{
+        sugestaoEmailService = new SugestaoEmailService();
+        assertThat(sugestaoEmailService, is(notNullValue()));
     }
     
-//    @Test
-//    public void testCatchIOException() throws Exception {
-//        given(arquivoService.getRegistros()).willThrow(new IOException());        
-//        alunoService = new AlunoService(arquivoService, logger);
-//        verify(alunoService.getLOGGER(), times(1)).error(anyString());
-//    }
-    
+    @Test(expected = IOException.class)
+    public void testCatchIOException() throws Exception {
+        CSVService SERVICE = mock(CSVService.class);
+        Aluno aluno = null;
+        when(SERVICE.salvarMudancaNoCSV(aluno)).thenThrow(new IOException());
+    }
+
 }
