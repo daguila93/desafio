@@ -17,18 +17,23 @@ import org.junit.After;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  *
  * @author edil
  */
+@RunWith(MockitoJUnitRunner.class)
 public class CSVServiceTest {
 
     private CSVService service;
     private SugestaoEmailService sugestaoEmailService;
+     
+    @Spy
+    private CSVService service2 = new CSVService("dsadsa");
     
     @Before
     public void setUp() throws IOException {
@@ -68,18 +73,27 @@ public class CSVServiceTest {
         service.apagarArquivoAntigo();
         service.salvarMudancaNoCSV((Aluno) service.getRegistros().get(0));
     }
-    
+
     @Test
-    public void testConstrutorSemParametro() throws IOException{
+    public void testConstrutorSemParametro() throws IOException {
         sugestaoEmailService = new SugestaoEmailService();
         assertThat(sugestaoEmailService, is(notNullValue()));
     }
-    
+
     @Test(expected = IOException.class)
     public void testCatchIOException() throws Exception {
-        CSVService SERVICE = mock(CSVService.class);
-        Aluno aluno = null;
-        when(SERVICE.salvarMudancaNoCSV(aluno)).thenThrow(new IOException());
+        service2.salvarMudancaNoCSV(aluno());
+        Mockito.verify(service2.getLOGGER(), Mockito.times(1));
     }
 
+    private Aluno aluno() {
+        Aluno aluno = new Aluno();
+        aluno.setNome("Edil D'Aguila Rocha");
+        aluno.setEmail("email@gmail.com");
+        aluno.setMatricula(1180000001l);
+        aluno.setStatus("Ativo");
+        aluno.setTelefone("99999-9999");
+        return aluno;
+    }
+    
 }

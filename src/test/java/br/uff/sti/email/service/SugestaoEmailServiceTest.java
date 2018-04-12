@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import org.hamcrest.Matchers;
 import static org.hamcrest.Matchers.hasSize;
 import org.junit.After;
@@ -64,7 +65,7 @@ public class SugestaoEmailServiceTest {
         assertThat(sugestoes.get(4), is(equalTo("edildaguila@id.uff.br")));
         assertThat(sugestoes.get(5), is(equalTo("edaguila@id.uff.br")));
         assertThat(sugestoes.get(6), is(equalTo("edil@id.uff.br")));
-        assertThat(sugestoes.keySet(), hasSize(6));
+        assertThat(sugestoes.keySet(), hasSize(6));//6 pois Eduardo Dantas pegou o email edd@id.uff.br
     }
 
     @Test
@@ -83,7 +84,7 @@ public class SugestaoEmailServiceTest {
 
     @Test
     public void testverificaSeASugestaoJaExiste() throws IOException {
-        service.criarMapaDeEmail("");
+        assertThat(service.criarMapaDeEmail("edd@id.uff.br"), is(notNullValue()));
     }
 
 }

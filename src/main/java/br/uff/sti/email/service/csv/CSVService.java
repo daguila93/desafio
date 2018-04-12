@@ -98,7 +98,7 @@ public class CSVService {
             }
             alteraNomeDoArquivo();
             apagarArquivoAntigo();
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
     }

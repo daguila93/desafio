@@ -97,7 +97,6 @@ public class SugestaoEmailService {
     }
     
     // Métodos de sugestão de nome de email
-
     private String criarEmailSeparadoPorUnderscore(String[] arrayNome) {
         String email = arrayNome[0] + "_" + arrayNome[1] + DOMAIN_EMAIL;
         return email.toLowerCase();
