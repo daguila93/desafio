@@ -11,7 +11,6 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import org.hamcrest.Matchers;
 import static org.hamcrest.Matchers.hasSize;
 import org.junit.After;
 import static org.junit.Assert.*;
@@ -55,6 +54,11 @@ public class SugestaoEmailServiceTest {
         assertThat(sugestoes.keySet(), hasSize(4));
     }
 
+    /**
+     * Seriam 7 sugestões, mas Eduardo Dantas pegou o email edd@id.uff.br
+     * Ele está no arquivo de testes
+     * @throws IOException 
+     */
     @Test
     public void quando_aluno_com_tres_nomes_entao_retorna_sete_sugestoes() throws IOException {
         Map<Integer, String> sugestoes
@@ -65,7 +69,7 @@ public class SugestaoEmailServiceTest {
         assertThat(sugestoes.get(4), is(equalTo("edildaguila@id.uff.br")));
         assertThat(sugestoes.get(5), is(equalTo("edaguila@id.uff.br")));
         assertThat(sugestoes.get(6), is(equalTo("edil@id.uff.br")));
-        assertThat(sugestoes.keySet(), hasSize(6));//6 pois Eduardo Dantas pegou o email edd@id.uff.br
+        assertThat(sugestoes.keySet(), hasSize(6));
     }
 
     @Test
@@ -81,10 +85,4 @@ public class SugestaoEmailServiceTest {
         assertThat(sugestoes.get(7), is(equalTo("gdd@id.uff.br")));
         assertThat(sugestoes.keySet(), hasSize(7));
     }
-
-    @Test
-    public void testverificaSeASugestaoJaExiste() throws IOException {
-        assertThat(service.criarMapaDeEmail("edd@id.uff.br"), is(notNullValue()));
-    }
-
 }

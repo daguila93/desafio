@@ -41,17 +41,18 @@ public class CSVService {
     private List<Aluno> registros;
     private final String CAMINHODOARQUIVOANTIGO = "." + File.separator +"ArquivoQueVaiSerApagado.csv";
 
-    public CSVService() {
+    public CSVService() throws IOException {
         this("." + File.separator + "Arquivo.csv");
     }
 
-    public CSVService(String nomeDoArquivo) {
+    public CSVService(String nomeDoArquivo) throws IOException {
         this(nomeDoArquivo, LoggerFactory.getLogger(CSVService.class));
     }
 
-    public CSVService(String nomeDoArquivo, Logger log) {
+    public CSVService(String nomeDoArquivo, Logger log) throws IOException {
         this.nomeDoArquivo = nomeDoArquivo;
         this.LOGGER = log;
+        inicializarServico();
     }
 
     public CSVService inicializarServico() throws FileNotFoundException, IOException {

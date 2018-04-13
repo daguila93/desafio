@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.hamcrest.CoreMatchers;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import static org.junit.Assert.assertFalse;
@@ -113,7 +115,7 @@ public class AlunoServiceTest {
     
     @Test
     public void testCatchFileNotFoundException() throws Exception {
-        given(arquivoService.inicializarServico()).willThrow(FileNotFoundException.class);       
+        given(arquivoService.getRegistros()).willThrow(FileNotFoundException.class);       
         alunoService = new AlunoService(arquivoService, logger);
         verify(alunoService.getLOGGER(), times(1)).error(anyString());
     }
@@ -127,7 +129,7 @@ public class AlunoServiceTest {
     }
 
     @Test
-    public void testConstrutorVazioExisteInstancia() {
+    public void testConstrutorVazioExisteInstancia() throws IOException {
         AlunoService servico = new AlunoService();
         assertThat(servico.getCSVService(), is(Matchers.notNullValue()));
     }
