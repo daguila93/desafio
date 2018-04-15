@@ -86,7 +86,7 @@ public class CSVService {
 
     public void salvarMudancaNoCSV(Aluno aluno) {
         try(FileWriter fileWriter = new FileWriter("." + File.separator + "novo.csv");
-            CSVPrinter printer = new CSVPrinter(fileWriter, getCSVFormat().withQuote(null));){            
+            CSVPrinter printer = new CSVPrinter(fileWriter, getCSVFormat().withQuote(null))){            
 
             printarCabecalho(printer);
 
