@@ -27,7 +27,7 @@ public class SugestaoEmailService {
     }
     
     public SugestaoEmailService(CSVService service) throws IOException{
-        arquivoService = service.inicializarServico();
+        arquivoService = service;
         indiceMapa = 0;
     } 
     

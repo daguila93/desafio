@@ -16,11 +16,18 @@ import static org.hamcrest.Matchers.hasSize;
 import org.junit.After;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.mockito.Spy;
+import org.mockito.BDDMockito;
+import static org.mockito.BDDMockito.given;
+import org.mockito.Matchers;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slf4j.Logger;
 
 /**
  *
@@ -31,13 +38,10 @@ public class CSVServiceTest {
 
     private CSVService service;
     private SugestaoEmailService sugestaoEmailService;
-     
-    @Spy
-    private CSVService service2 = new CSVService("dsadsa");
     
     @Before
     public void setUp() throws IOException {
-        service = new CSVService("./src/test/Test.csv").inicializarServico();
+        service = new CSVService("./src/test/Test.csv");
     }
 
     @After
@@ -62,7 +66,7 @@ public class CSVServiceTest {
 
     @Test
     public void testConstrutorVazioValorDefault() throws IOException {
-        CSVService servico = new CSVService().inicializarServico();
+        CSVService servico = new CSVService();
         assertThat(servico.getNomeDoArquivo(), is(not("")));
         assertThat(servico.getNomeDoArquivo(), is("./Arquivo.csv"));
         assertThat(servico.getLOGGER().getName(), is("br.uff.sti.email.service.csv.CSVService"));
@@ -80,20 +84,13 @@ public class CSVServiceTest {
         assertThat(sugestaoEmailService, is(notNullValue()));
     }
 
-    @Test(expected = IOException.class)
+    @Test
     public void testCatchIOException() throws Exception {
-        service2.salvarMudancaNoCSV(aluno());
-        Mockito.verify(service2.getLOGGER(), Mockito.times(1));
-    }
-
-    private Aluno aluno() {
-        Aluno aluno = new Aluno();
-        aluno.setNome("Edil D'Aguila Rocha");
-        aluno.setEmail("email@gmail.com");
-        aluno.setMatricula(1180000001l);
-        aluno.setStatus("Ativo");
-        aluno.setTelefone("99999-9999");
-        return aluno;
-    }
-    
+        CSVService service2 = new CSVService("./src/test/Test.csv", mock(Logger.class));
+        service2.lerRegistros();
+        Aluno mockDeAluno = mock(Aluno.class);
+        given(mockDeAluno.getMatricula()).willThrow(IOException.class);
+        service2.salvarMudancaNoCSV(mockDeAluno);
+        verify(service2.getLOGGER(), times(1)).error(anyString());
+    }    
 }

@@ -27,7 +27,7 @@ public class AlunoService {
     
     private CSVService CSVService;
 
-    public AlunoService() {
+    public AlunoService() throws IOException {
         this(new CSVService());
     }
 
@@ -44,7 +44,6 @@ public class AlunoService {
     
     private void inicializarMapAlunos(){
         try {
-            CSVService.inicializarServico();
             for (Aluno aluno : CSVService.getRegistros()) {                
                 map.put(aluno.getMatricula(), aluno);       
             }
